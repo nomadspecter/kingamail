@@ -1,26 +1,218 @@
 {% extends "base.html" %}
 
-{% block title %}IT Admin Operations — {{ system_name }}{% endblock %}
+{% block title %}SOC Security Operations Console — {{ system_name }}{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
-        <h3 class="fw-bold mb-1"><i class="bi bi-shield-lock-fill text-danger me-2"></i>Security Operations Console</h3>
-        <p class="text-muted small mb-0">SOC triage, quarantined emails, high-risk employee indicators</p>
+        <h3 class="fw-bold mb-1"><i class="bi bi-shield-shaded text-danger me-2"></i>Security Operations Console</h3>
+        <p class="text-muted small mb-0">Enterprise threat posture, quarantine volumes, active incidents, and high-risk employee indicators</p>
     </div>
-    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2">Phase 6 Integration</span>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('reports.list_reports') }}" class="btn btn-outline-danger btn-sm">
+            <i class="bi bi-inbox-fill me-1"></i> SOC Triage Queue
+        </a>
+        <a href="{{ url_for('incidents.list_incidents') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-exclamation-octagon me-1"></i> Incidents Docket
+        </a>
+        <a href="{{ url_for('dashboard.reports_overview') }}" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-file-earmark-spreadsheet me-1"></i> Compliance Reports
+        </a>
+    </div>
 </div>
 
-<div class="card shadow-sm">
-    <div class="card-body p-4 text-center">
-        <i class="bi bi-graph-up-arrow fs-1 text-danger d-block mb-3"></i>
-        <h5>IT Administrator Security Dashboard</h5>
-        <p class="text-muted small mb-3">
-            In Phase 6, admins will monitor live phishing trends, compromised accounts, and high-risk employees.
-        </p>
-        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left me-1"></i> Return to Foundation Overview
-        </a>
+<!-- SOC High-Level Metric Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm border-0 border-start border-danger border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">Quarantined Attacks</div>
+                <div class="d-flex align-items-baseline gap-2">
+                    <span class="fs-3 fw-bold text-danger">{{ metrics.emails.quarantined }}</span>
+                    <span class="small text-muted">of {{ metrics.emails.total }} total</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm border-0 border-start border-warning border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">Active Incidents</div>
+                <div class="d-flex align-items-baseline gap-2">
+                    <span class="fs-3 fw-bold text-warning">{{ metrics.incidents.open + metrics.incidents.in_progress }}</span>
+                    <span class="small text-muted">({{ metrics.incidents.resolved }} resolved)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm border-0 border-start border-info border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">Pending Report Triage</div>
+                <div class="d-flex align-items-baseline gap-2">
+                    <span class="fs-3 fw-bold text-info">{{ metrics.reports.pending }}</span>
+                    <span class="small text-muted">needs SOC review</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm border-0 border-start border-dark border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">Blacklisted Senders</div>
+                <div class="d-flex align-items-baseline gap-2">
+                    <span class="fs-3 fw-bold text-dark">{{ metrics.blocked_senders }}</span>
+                    <span class="small text-muted">active domain blocks</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Email Threat Distribution -->
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-light py-3">
+                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-pie-chart me-2"></i>Email Threat Distribution</h6>
+            </div>
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between mb-1 small fw-semibold">
+                    <span>Verified Safe ({{ metrics.emails.safe }})</span>
+                    <span>Suspicious ({{ metrics.emails.suspicious }})</span>
+                    <span>Quarantined Phish ({{ metrics.emails.quarantined }})</span>
+                </div>
+                <div class="progress mb-4" style="height: 16px;">
+                    {% set total_e = metrics.emails.total if metrics.emails.total > 0 else 1 %}
+                    <div class="progress-bar bg-success" style="width: {{ (metrics.emails.safe / total_e * 100)|round }}%"></div>
+                    <div class="progress-bar bg-warning" style="width: {{ (metrics.emails.suspicious / total_e * 100)|round }}%"></div>
+                    <div class="progress-bar bg-danger" style="width: {{ (metrics.emails.quarantined / total_e * 100)|round }}%"></div>
+                </div>
+
+                <div class="d-flex flex-column gap-2 small">
+                    <div class="d-flex justify-content-between p-2 rounded bg-light">
+                        <span><i class="bi bi-check-circle-fill text-success me-2"></i>Directly Delivered Safe</span>
+                        <strong class="font-monospace">{{ metrics.emails.safe }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between p-2 rounded bg-light">
+                        <span><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>Delivered with Warning Banner</span>
+                        <strong class="font-monospace">{{ metrics.emails.suspicious }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between p-2 rounded bg-light">
+                        <span><i class="bi bi-shield-slash-fill text-danger me-2"></i>Isolated in Quarantine Module</span>
+                        <strong class="font-monospace">{{ metrics.emails.quarantined }}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Blacklist Senders -->
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-slash-circle me-2"></i>Recently Blacklisted Senders</h6>
+                <span class="badge bg-secondary-subtle text-secondary small">Total: {{ metrics.blocked_senders }}</span>
+            </div>
+            <div class="card-body p-3">
+                {% if metrics.recent_blocked %}
+                <div class="list-group list-group-flush small">
+                    {% for item in metrics.recent_blocked %}
+                    <div class="list-group-item px-2 py-2 d-flex justify-content-between align-items-center">
+                        <div>
+                            <code class="text-danger fw-bold">{{ item.sender_value }}</code>
+                            <div class="text-muted small">{{ item.reason if item.reason else 'Active phishing domain' }}</div>
+                        </div>
+                        <span class="text-muted font-monospace small">{{ item.created_at.strftime('%b %d') }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-4 text-muted small">No custom blocked domains.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- High-Risk Employees Identification -->
+<div class="card shadow-sm border-0 border-top border-warning border-4">
+    <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+        <div>
+            <h6 class="fw-bold mb-0 text-dark">
+                <i class="bi bi-person-exclamation text-warning me-2"></i>High-Risk Workforce Watchlist
+            </h6>
+            <div class="small text-muted">Employees with compromised accounts, simulation click history, or assessment deficits</div>
+        </div>
+        <span class="badge bg-danger">{{ metrics.high_risk_users|length }} Users Requiring SOC Attention</span>
+    </div>
+    <div class="card-body p-0">
+        {% if metrics.high_risk_users %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light small text-muted text-uppercase">
+                    <tr>
+                        <th>Employee</th>
+                        <th>Department</th>
+                        <th>Account Status</th>
+                        <th>Risk Assessment Factors</th>
+                        <th style="width: 130px;">Threat Level</th>
+                        <th style="width: 140px;" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in metrics.high_risk_users %}
+                    {% set u = item.user %}
+                    <tr>
+                        <td>
+                            <div class="fw-bold text-dark">{{ u.full_name }}</div>
+                            <div class="small text-muted font-monospace">{{ u.email }}</div>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border">{{ u.department.name if u.department else 'Corporate' }}</span>
+                        </td>
+                        <td>
+                            {% if u.status == 'compromised' %}
+                                <span class="badge bg-warning text-dark"><i class="bi bi-shield-slash-fill me-1"></i> Compromised</span>
+                            {% elif u.status == 'locked' %}
+                                <span class="badge bg-danger">Locked</span>
+                            {% else %}
+                                <span class="badge bg-success-subtle text-success">Active</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for r in item.reasons %}
+                                <span class="badge bg-secondary-subtle text-secondary small">{{ r }}</span>
+                                {% endfor %}
+                            </div>
+                        </td>
+                        <td>
+                            {% if item.risk_level == 'Critical' %}
+                                <span class="badge bg-danger text-uppercase px-2 py-1"><i class="bi bi-fire me-1"></i> Critical</span>
+                            {% elif item.risk_level == 'High' %}
+                                <span class="badge bg-warning text-dark text-uppercase px-2 py-1">High Risk</span>
+                            {% else %}
+                                <span class="badge bg-secondary text-uppercase px-2 py-1">Medium</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <a href="{{ url_for('emails.inbox') }}" class="btn btn-outline-secondary btn-sm" title="View Mailbox">
+                                <i class="bi bi-eye"></i> Inspect
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-5 text-center text-muted">
+            <i class="bi bi-shield-check text-success fs-1 d-block mb-2"></i>
+            <h5>Workforce Posture Healthy</h5>
+            <p class="small mb-0">No compromised accounts or high-risk simulation failures detected.</p>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

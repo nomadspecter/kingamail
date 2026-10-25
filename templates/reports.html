@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Security & Compliance Reports — {{ system_name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h3 class="fw-bold mb-1"><i class="bi bi-file-earmark-spreadsheet-fill text-primary me-2"></i>Security & Compliance Reports</h3>
+        <p class="text-muted small mb-0">Cross-departmental security awareness benchmarking, simulation analytics, and compliance audit exports</p>
+    </div>
+    <div>
+        <a href="{{ url_for('dashboard.export_csv') }}" class="btn btn-success btn-sm">
+            <i class="bi bi-download me-1"></i> Export Workforce Compliance CSV
+        </a>
+    </div>
+</div>
+
+<!-- Departmental Benchmarking Table -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+        <span class="fw-semibold text-dark"><i class="bi bi-building me-2"></i>Departmental Risk & Awareness Benchmarks</span>
+        <span class="text-muted small">Total Departments: {{ dept_summaries|length }}</span>
+    </div>
+    <div class="card-body p-0">
+        {% if dept_summaries %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light small text-muted text-uppercase">
+                    <tr>
+                        <th>Department</th>
+                        <th style="width: 110px;" class="text-center">Headcount</th>
+                        <th style="width: 160px;">Simulation Click %</th>
+                        <th style="width: 160px;">Threat Report %</th>
+                        <th style="width: 140px;">Avg Quiz Score</th>
+                        <th style="width: 170px;">Training Completion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in dept_summaries %}
+                    <tr>
+                        <td>
+                            <div class="fw-bold text-dark">{{ d.department.name }}</div>
+                            <div class="small text-muted font-monospace">{{ d.department.code }}</div>
+                        </td>
+                        <td class="text-center fw-bold">{{ d.user_count }}</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="small font-monospace fw-bold text-danger">{{ d.click_rate }}%</span>
+                                <div class="progress flex-grow-1" style="height: 6px;">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{ d.click_rate }}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="small font-monospace fw-bold text-success">{{ d.report_rate }}%</span>
+                                <div class="progress flex-grow-1" style="height: 6px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ d.report_rate }}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="font-monospace fw-bold {% if d.avg_score >= 70 %}text-success{% else %}text-muted{% endif %}">
+                                {{ d.avg_score }}%
+                            </span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="small font-monospace fw-bold text-primary">{{ d.completion_rate }}%</span>
+                                <div class="progress flex-grow-1" style="height: 6px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: {{ d.completion_rate }}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-5 text-center text-muted">
+            <i class="bi bi-bar-chart fs-1 d-block mb-2"></i>
+            <h5>No Departmental Data Available</h5>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Compliance Audit Export Card -->
+<div class="card shadow-sm border-0 border-top border-success border-4">
+    <div class="card-header bg-light py-3">
+        <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-file-earmark-arrow-down me-2"></i>Enterprise CSV Data Export</h6>
+    </div>
+    <div class="card-body p-4">
+        <p class="text-muted small">
+            Generate an immutable audit report in standard RFC 4180 CSV format containing employee risk assessments,
+            simulation interaction metrics, quiz scores, and security compliance status for executive auditing and insurance verification.
+        </p>
+        <div class="d-flex align-items-center justify-content-between p-3 rounded bg-light border">
+            <div>
+                <strong class="text-dark">Workforce Awareness & Threat Susceptibility Audit</strong>
+                <div class="small text-muted font-monospace">Format: CSV | Filter: Enterprise Entire Roster | Fields: 12 Columns</div>
+            </div>
+            <a href="{{ url_for('dashboard.export_csv') }}" class="btn btn-success btn-sm">
+                <i class="bi bi-download me-1"></i> Download CSV Export
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,26 +1,160 @@
 {% extends "base.html" %}
 
-{% block title %}Manager Risk Dashboard — {{ system_name }}{% endblock %}
+{% block title %}Department Awareness Dashboard — {{ system_name }}{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
-        <h3 class="fw-bold mb-1"><i class="bi bi-person-lines-fill text-warning me-2"></i>Department Risk Dashboard</h3>
-        <p class="text-muted small mb-0">Departmental simulation click-rates, training compliance, and awareness reports</p>
+        <h3 class="fw-bold mb-1"><i class="bi bi-people-fill text-info me-2"></i>Department Risk & Awareness Dashboard</h3>
+        <p class="text-muted small mb-0">Monitor team simulation failure rates, reporting vigilance, and security training compliance</p>
     </div>
-    <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2">Phase 6 Integration</span>
+    {% if stats.is_admin and stats.departments %}
+    <div class="d-flex align-items-center gap-2">
+        <label for="deptSelect" class="small text-muted fw-semibold">Switch Department:</label>
+        <select id="deptSelect" class="form-select form-select-sm" onchange="location = this.value;" style="min-width: 180px;">
+            {% for d in stats.departments %}
+            <option value="{{ url_for('dashboard.manager_dashboard', dept_id=d.id) }}" {% if stats.department and stats.department.id == d.id %}selected{% endif %}>
+                {{ d.name }} ({{ d.code }})
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    {% endif %}
 </div>
 
-<div class="card shadow-sm">
-    <div class="card-body p-4 text-center">
-        <i class="bi bi-pie-chart fs-1 text-warning d-block mb-3"></i>
-        <h5>Manager Department Overview</h5>
-        <p class="text-muted small mb-3">
-            In Phase 6, managers will review team readiness metrics and export audit compliance CSVs.
-        </p>
-        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left me-1"></i> Return to Foundation Overview
-        </a>
+<!-- Department Overview Header -->
+<div class="card shadow-sm border-0 mb-4 bg-light">
+    <div class="card-body p-3 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+        <div>
+            <span class="text-muted small text-uppercase fw-bold">Active Department</span>
+            <h4 class="fw-bold text-dark mb-0">{{ stats.department.name if stats.department else 'Corporate' }}</h4>
+        </div>
+        <div>
+            <span class="badge bg-secondary-subtle text-secondary px-3 py-2">Department Code: {{ stats.department.code if stats.department else 'CORP' }}</span>
+        </div>
+    </div>
+</div>
+
+<!-- Department Key Metric Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm border-0 border-start border-primary border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">Team Size</div>
+                <div class="fs-3 fw-bold text-dark">{{ stats.total_members }} <span class="fs-6 text-muted fw-normal">staff</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm border-0 border-start border-danger border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">Simulation Failure Rate</div>
+                <div class="d-flex align-items-baseline gap-2">
+                    <span class="fs-3 fw-bold text-danger">{{ stats.fail_rate }}%</span>
+                    <span class="small text-muted">clicked phish</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm border-0 border-start border-success border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">Threat Reporting Rate</div>
+                <div class="d-flex align-items-baseline gap-2">
+                    <span class="fs-3 fw-bold text-success">{{ stats.report_rate }}%</span>
+                    <span class="small text-muted">reported threat</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm border-0 border-start border-info border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">Average Quiz Score</div>
+                <div class="d-flex align-items-baseline gap-2">
+                    <span class="fs-3 fw-bold text-info">{{ stats.avg_quiz_score }}%</span>
+                    <span class="small text-muted">benchmark</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Department Team Roster Table -->
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+        <span class="fw-semibold text-dark"><i class="bi bi-person-lines-fill me-2"></i>Department Team Members</span>
+        <span class="text-muted small">Displaying {{ stats.team_members|length }} members</span>
+    </div>
+    <div class="card-body p-0">
+        {% if stats.team_members %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light small text-muted text-uppercase">
+                    <tr>
+                        <th>Employee</th>
+                        <th>Email Address</th>
+                        <th style="width: 120px;">Account Status</th>
+                        <th style="width: 130px;" class="text-center">Simulations Clicked</th>
+                        <th style="width: 130px;" class="text-center">Simulations Reported</th>
+                        <th style="width: 130px;" class="text-center">Quizzes Taken</th>
+                        <th style="width: 130px;" class="text-end">Average Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in stats.team_members %}
+                    {% set u = m.user %}
+                    <tr>
+                        <td>
+                            <div class="fw-bold text-dark">{{ u.full_name }}</div>
+                            <div class="small text-muted">{{ u.role.name if u.role else 'Employee' }}</div>
+                        </td>
+                        <td>
+                            <span class="font-monospace small text-dark">{{ u.email }}</span>
+                        </td>
+                        <td>
+                            {% if m.status == 'compromised' %}
+                                <span class="badge bg-warning text-dark"><i class="bi bi-exclamation-triangle-fill me-1"></i> Compromised</span>
+                            {% elif m.status == 'locked' %}
+                                <span class="badge bg-danger">Locked</span>
+                            {% else %}
+                                <span class="badge bg-success-subtle text-success">Active</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <span class="badge {% if m.sim_clicks > 0 %}bg-danger{% else %}bg-secondary{% endif %}">
+                                {{ m.sim_clicks }}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge {% if m.sim_reports > 0 %}bg-success{% else %}bg-secondary{% endif %}">
+                                {{ m.sim_reports }}
+                            </span>
+                        </td>
+                        <td class="text-center fw-bold text-muted">
+                            {{ m.quizzes_taken }}
+                        </td>
+                        <td class="text-end">
+                            {% if m.quizzes_taken > 0 %}
+                                <span class="font-monospace fw-bold {% if m.avg_score >= 70 %}text-success{% else %}text-danger{% endif %}">
+                                    {{ m.avg_score }}%
+                                </span>
+                            {% else %}
+                                <span class="badge bg-light text-muted border">None</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-5 text-center text-muted">
+            <i class="bi bi-person-x fs-1 d-block mb-2"></i>
+            <h5>No Department Members Found</h5>
+            <p class="small mb-0">No active employees are currently assigned to this department.</p>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

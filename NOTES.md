@@ -184,3 +184,41 @@ To proactively train employees before real cyberattacks strike, IT Administrator
 If the employee instead spots the attack and reports it, the reporting controller detects the simulation token and credits the employee with a successful detection. Finally, employees solidify their learning through the interactive training courses, where 5 multiple-choice questions per topic are retrieved from PostgreSQL, graded on submission, and recorded in `quiz_result` to demonstrate compliance.
 
 ---
+
+## Phase 6: Dashboards, Analytics & Compliance Reports
+### 1. What Was Added
+- Dynamic Landing & Role-Based Routing (`/`):
+  - Public portal overview displaying live foundation statistics for unauthenticated visitors.
+  - Automatic session redirection: `IT Admin` -> `/dashboard/admin`, `Manager` -> `/dashboard/manager`, `Employee` -> `/emails/inbox`.
+- IT Administrator SOC Console (`/dashboard/admin`):
+  - Enterprise threat ingestion metrics (Safe, Suspicious, Quarantined email counts).
+  - Real-time Incident response counters (Open, Investigating, Resolved/Closed).
+  - Phishing report triage pipeline metrics (Pending vs Confirmed attacks).
+  - Blocklist summary displaying recently added attacker addresses/domains.
+  - High-Risk Workforce Watchlist: Automatically identifies high-risk employees by correlating compromised account status, simulated phishing click failures, and failed training quiz attempts (<70%).
+- Department Manager Dashboard (`/dashboard/manager`):
+  - Department filter dropdown for cross-department oversight by IT Administrators or focused viewing for Department Heads.
+  - Team vulnerability metrics: Simulation Failure Rate (clicks / total simulated emails sent), Threat Reporting Rate (reports / total simulated emails), and Average Quiz Compliance Score.
+  - Granular workforce breakdown table listing each team member's simulation click history, detection reports, quiz attempts, and security status.
+- Cross-Department Compliance & Benchmarking (`/dashboard/reports`):
+  - Executive benchmarking table comparing department headcounts, click failure rates, reporting rates, average quiz scores, and training completion percentages.
+- Workforce Compliance CSV Data Export (`/dashboard/reports/export-csv`):
+  - Generates and streams standard RFC 4180 CSV files directly to the browser.
+  - Includes 12 structured columns: `Employee ID`, `Full Name`, `Email Address`, `Department`, `Role`, `Account Status`, `Simulations Targeted`, `Simulations Clicked`, `Simulations Reported`, `Quizzes Taken`, `Average Quiz Score (%)`, and calculated `Security Posture Rating` (e.g., `COMPROMISED - Immediate Remediation`, `High Risk - Mandatory Retraining`, `Security Champion - High Vigilance`, `Standard Compliance`).
+- System Health Check API (`/health`): Returns system JSON status and active `SYSTEM_NAME`.
+
+### 2. Files Involved
+- `routes/dashboard.py`: Central dashboard routing, SOC analytics, manager metrics, compliance reporting, and streaming CSV exporter.
+- `templates/dashboard_admin.html`: IT Admin SOC executive console layout with metric cards and high-risk employee watchlist.
+- `templates/dashboard_manager.html`: Department manager team risk metrics, gauge cards, and employee simulation breakdown.
+- `templates/reports.html`: Organization-wide compliance benchmarking table with quick CSV export button.
+- `test_phase6.py`: Comprehensive automated test suite verifying role routing, authorization, dashboard data rendering, and CSV column structure against Supabase PostgreSQL.
+
+### 3. How It Works (Student Explanation)
+Organizations need visibility into both real security incidents and overall workforce vigilance. In Phase 6, the system brings all security data together into customized views based on who is logged in. When a user visits `/`, the system inspects `session['user_role']` and sends them directly to their role's relevant screen.
+
+For IT Administrators, the SOC console aggregates data from the `email`, `incident`, `report`, and `blocked_sender` tables to give an immediate operational picture of incoming attacks. It also scans `sim_result` and `quiz_result` records to automatically compile a high-risk watchlist of employees who have clicked phishing simulations or failed assessments, helping the security team target additional coaching.
+
+For Department Managers, the dashboard isolates their specific team to show what percentage of their staff fell for simulated phishing campaigns and how diligently they report threats. Finally, the compliance report generates an exportable 12-column CSV file that can be handed directly to internal auditors or executive management to prove adherence to corporate cybersecurity awareness standards.
+
+---
