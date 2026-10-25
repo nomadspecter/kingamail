@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}On-Demand Threat Scanner — {{ system_name }}{% endblock %}
+{% block title %}Email Threat Scanner — {{ system_name }}{% endblock %}
 
 {% block content %}
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
         <h3 class="fw-bold mb-1"><i class="bi bi-search text-primary me-2"></i>Email Threat Scanner</h3>
-        <p class="text-muted small mb-0">Evaluate email headers and body text against 12 offline heuristic rules and local blocklists</p>
+        <p class="text-muted small mb-0">Evaluate email headers and body text against 12 offline Kenyan cyber-threat heuristics and local blocklists</p>
     </div>
     <div class="d-flex gap-2">
         <a href="{{ url_for('emails.inbox') }}" class="btn btn-outline-secondary btn-sm">
@@ -21,21 +21,27 @@
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
                 <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-pencil-square me-2"></i>Inspect Email Content</h6>
-                <span class="badge bg-secondary-subtle text-secondary small">Offline Rule-Based</span>
+                <span class="badge bg-secondary-subtle text-secondary small">100% Offline Rule-Based</span>
             </div>
             <div class="card-body p-4">
                 <!-- Preset Sample Buttons for Quick Demo -->
                 <div class="mb-3">
-                    <label class="form-label small fw-semibold text-muted d-block">Quick Demo Presets:</label>
+                    <label class="form-label small fw-semibold text-muted d-block">Kenyan Threat Demo Presets:</label>
                     <div class="d-flex flex-wrap gap-1">
                         <button type="button" class="btn btn-outline-success btn-sm" onclick="loadSample('safe')">
                             <i class="bi bi-check-circle me-1"></i> Clean Staff Memo
                         </button>
-                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="loadSample('typo')">
-                            <i class="bi bi-exclamation-octagon me-1"></i> Typosquatted IT
+                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="loadSample('kra')">
+                            <i class="bi bi-shield-slash me-1"></i> KRA Tax Phish
                         </button>
-                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="loadSample('dhl')">
-                            <i class="bi bi-truck me-1"></i> DHL Scam Link
+                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="loadSample('mpesa')">
+                            <i class="bi bi-phone me-1"></i> M-Pesa Reversal Scam
+                        </button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="loadSample('training')">
+                            <i class="bi bi-mortarboard me-1"></i> Free Training Lure
+                        </button>
+                        <button type="button" class="btn btn-outline-dark btn-sm" onclick="loadSample('tender')">
+                            <i class="bi bi-file-earmark-ruled me-1"></i> County Tender Fraud
                         </button>
                     </div>
                 </div>
@@ -46,7 +52,7 @@
                     <div class="mb-3">
                         <label for="from_address" class="form-label small fw-semibold">Sender Email (From:)</label>
                         <input type="text" class="form-control font-monospace" id="from_address" name="from_address"
-                               placeholder="e.g. support@micr0soft-support.xyz" value="{{ input_data.from_address }}">
+                               placeholder="e.g. Kenya Revenue Authority <support@kra-portal.xyz>" value="{{ input_data.from_address }}">
                     </div>
 
                     <div class="mb-3">
@@ -58,7 +64,7 @@
                     <div class="mb-3">
                         <label for="subject" class="form-label small fw-semibold">Subject Line</label>
                         <input type="text" class="form-control" id="subject" name="subject"
-                               placeholder="e.g. URGENT: Your corporate account is locked" value="{{ input_data.subject }}">
+                               placeholder="e.g. URGENT: KRA Tax Compliance Certificate Suspension" value="{{ input_data.subject }}">
                     </div>
 
                     <div class="mb-3">
@@ -98,67 +104,66 @@
                     <div class="col-md-7 text-start border-start-md ps-md-4">
                         <div class="mb-2">
                             <strong>Detection Confidence:</strong>
-                            <span class="badge bg-secondary-subtle text-secondary ms-1">{{ analysis.confidence }} Confidence</span>
+                            <span class="badge bg-secondary ms-1">{{ analysis.confidence }}</span>
                         </div>
                         <div class="mb-2">
                             <strong>Triggered Indicators:</strong>
-                            <span class="badge bg-primary-subtle text-primary ms-1">{{ analysis.triggered_count }} Rules Triggered</span>
+                            <span class="fw-bold {% if analysis.triggered_count > 0 %}text-danger{% else %}text-success{% endif %} ms-1">
+                                {{ analysis.triggered_count }} of {{ analysis.checks|length }} rules
+                            </span>
                         </div>
                         <div class="small text-muted">
-                            <strong>Action:</strong>
-                            {% if analysis.verdict == 'Safe' %}
-                                Deliver directly to employee inbox.
-                            {% elif analysis.verdict == 'Suspicious' %}
-                                Deliver with prominent amber warning banner and disarmed links.
-                            {% else %}
-                                Isolate in Quarantine; alert SOC team.
-                            {% endif %}
+                            Custom Thresholds: Safe (0–24), Suspicious (25–54), Quarantine (55+)
                         </div>
                     </div>
-                </div>
-
-                <div class="progress my-4" style="height: 10px;">
-                    <div class="progress-bar {% if analysis.total_score <= 30 %}bg-success{% elif analysis.total_score <= 70 %}bg-warning{% else %}bg-danger{% endif %}"
-                         role="progressbar" style="width: {{ analysis.total_score }}%"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Detailed Rule-by-Rule Breakdown -->
+        <!-- Full Heuristic Breakdown Table -->
         <div class="card shadow-sm border-0">
             <div class="card-header bg-light py-3">
-                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-list-check me-2"></i>Evaluated Heuristic Rules (12 Total)</h6>
+                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-list-check me-2"></i>12 Heuristic Rule Evaluation</h6>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light small text-muted text-uppercase">
+                        <thead class="table-light small">
                             <tr>
-                                <th>Heuristic Check</th>
-                                <th style="width: 100px;">Points</th>
-                                <th>Finding Explanation</th>
+                                <th class="ps-4" style="width: 240px;">Rule Check</th>
+                                <th style="width: 80px;" class="text-center">Score</th>
+                                <th>Finding & Forensic Details</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for check in analysis.checks %}
-                            <tr class="{% if check.score > 0 %}table-warning-subtle{% endif %}">
-                                <td class="fw-semibold">
-                                    {% if check.score > 0 %}
-                                        <i class="bi bi-exclamation-triangle-fill text-warning me-1"></i>
-                                    {% else %}
-                                        <i class="bi bi-check-circle-fill text-success me-1"></i>
-                                    {% endif %}
-                                    {{ check.name }}
+                            <tr class="{% if check.triggered %}table-danger-subtle{% endif %}">
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center gap-2">
+                                        {% if check.triggered %}
+                                            <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+                                            <div>
+                                                <strong class="text-danger d-block">{{ check.name }}</strong>
+                                                <span class="text-xs text-muted font-monospace" style="font-size: 0.72rem;">{{ check.rule_id }}</span>
+                                            </div>
+                                        {% else %}
+                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                            <div>
+                                                <span class="text-secondary d-block">{{ check.name }}</span>
+                                                <span class="text-xs text-muted font-monospace" style="font-size: 0.72rem;">{{ check.rule_id }}</span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
                                 </td>
-                                <td>
+                                <td class="text-center font-monospace fw-bold">
                                     {% if check.score > 0 %}
                                         <span class="badge bg-danger">+{{ check.score }}</span>
                                     {% else %}
-                                        <span class="badge bg-success-subtle text-success">0</span>
+                                        <span class="text-muted">0</span>
                                     {% endif %}
                                 </td>
                                 <td class="small text-muted">
-                                    {{ check.message }}
+                                    {{ check.details }}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -184,20 +189,30 @@
 <script>
 function loadSample(type) {
     if (type === 'safe') {
-        document.getElementById('from_address').value = 'hr-communications@corporate.local';
-        document.getElementById('reply_to').value = 'hr-communications@corporate.local';
-        document.getElementById('subject').value = 'Annual Company Wellness Program Updates';
-        document.getElementById('body').value = 'Team,\n\nPlease review the updated 2026 wellness benefits on our internal portal at http://intranet.corporate.local/benefits.\n\nBest regards,\nCorporate Human Resources';
-    } else if (type === 'typo') {
-        document.getElementById('from_address').value = 'admin@micr0soft-support.xyz';
-        document.getElementById('reply_to').value = 'credential-collector@stealth-drop.xyz';
-        document.getElementById('subject').value = 'URGENT: Corporate Password Expired - Action Required in 24 Hours';
-        document.getElementById('body').value = 'Dear User,\n\nYour enterprise password has expired. Your corporate account will be locked within 24 hours. Immediately visit http://micr0soft-support.xyz/login to enter your password and verify your credentials.';
-    } else if (type === 'dhl') {
-        document.getElementById('from_address').value = 'tracking@dhl-express-security.xyz';
-        document.getElementById('reply_to').value = 'delivery@evil-phish.xyz';
-        document.getElementById('subject').value = 'Delivery Exception: Package #DHL-948291 requires address verification';
-        document.getElementById('body').value = 'Your scheduled parcel could not be delivered. Please download file invoice attached or click http://bit.ly/dhl-claim to update your billing information and social security number.';
+        document.getElementById('from_address').value = 'HR Communications <hr-directorate@corporate.local>';
+        document.getElementById('reply_to').value = 'hr-directorate@corporate.local';
+        document.getElementById('subject').value = 'Corporate All-Hands & Q4 Strategy Briefing';
+        document.getElementById('body').value = 'Dear Staff,\n\nPlease find the schedule for our quarterly corporate all-hands briefing this Thursday at 10:00 AM in the main auditorium.\n\nBest regards,\nCorporate Human Resources';
+    } else if (type === 'kra') {
+        document.getElementById('from_address').value = 'Kenya Revenue Authority <support@kra-portal.xyz>';
+        document.getElementById('reply_to').value = 'support@kra-portal.xyz';
+        document.getElementById('subject').value = 'URGENT: KRA Tax Compliance Certificate Suspension & VAT Penalty';
+        document.getElementById('body').value = 'Dear Taxpayer,\n\nNotice of outstanding withholding tax VAT penalty on your KRA iTax PIN. Immediate action required within 24 hours to prevent CRB listing and legal prosecution.\n\nClick http://kra-portal.xyz/itax-login to verify your KRA PIN password and settle the KES 28,400 statutory levy.';
+    } else if (type === 'mpesa') {
+        document.getElementById('from_address').value = 'Safaricom Customer Care <alerts@safar1com-support.com>';
+        document.getElementById('reply_to').value = 'reversals@stealth-drop.xyz';
+        document.getElementById('subject').value = 'M-PESA Business Float: Confirm Pending Reversal of KES 18,500';
+        document.getElementById('body').value = 'Confirmed you have received KES 18,500 overpayment float from Daniel Mwangi. To cancel this transaction or authorize float reversal, visit http://bit.ly/mpesa-reverse-portal and enter your secret M-Pesa PIN.';
+    } else if (type === 'training') {
+        document.getElementById('from_address').value = 'African Leadership Foundation <fellowship@international-grants.xyz>';
+        document.getElementById('reply_to').value = 'fellowship@international-grants.xyz';
+        document.getElementById('subject').value = 'Fully Funded Professional Development Fellowship & CPD Credits (Nairobi)';
+        document.getElementById('body').value = 'Congratulations! You have been selected for a fully funded executive workshop in Nairobi with 20 free CPD credits and per diem allowance. Click http://international-grants.xyz/fellowship/apply to claim your corporate nomination slot.';
+    } else if (type === 'tender') {
+        document.getElementById('from_address').value = 'County Government Tenders Committee <procurement@county-tenders.xyz>';
+        document.getElementById('reply_to').value = 'finance-desk@scam-collect.top';
+        document.getElementById('subject').value = 'Tender Award Notification & Supply LPO (Ref: CGN/PROC/2026/884)';
+        document.getElementById('body').value = 'We are pleased to inform you that your tender pre-qualification has been approved for supply under LPO #CGN/PROC/2026/884. Remit your revised bank coordinates and quotation acceptance within 48 hours to http://bit.ly/tender-lpo-download.';
     }
 }
 </script>

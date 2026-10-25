@@ -163,6 +163,11 @@ class Config:
         "apple-id-verify.ml",
         "netflix-billing-update.tk",
         "banking-security-login.ga",
+        "kra-portal.xyz",
+        "safar1com-support.com",
+        "mpesa-reversals.top",
+        "ecitizen-verify.xyz",
+        "kcb-auth.work"
     ]
 
 

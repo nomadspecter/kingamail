@@ -121,106 +121,104 @@ def run_seed():
         emails_data = [
             {
                 "recipient_id": demo_emp.id,
-                "sender": "support@microsoft.com",
-                "reply_to": "support@microsoft.com",
-                "subject": "Scheduled Microsoft 365 Maintenance This Weekend",
+                "sender": "Enterprise IT Helpdesk <support@corporate.local>",
+                "reply_to": "support@corporate.local",
+                "subject": "Scheduled Corporate ERP & Cloud Infrastructure Maintenance",
                 "body": (
                     "Hello Team,\n\n"
-                    "Please be advised that Microsoft will perform scheduled maintenance on our corporate Office 365 "
-                    "tenant this Saturday between 02:00 UTC and 04:00 UTC. No disruption to email service is expected.\n\n"
+                    "Please be advised that the IT Infrastructure Directorate will perform scheduled maintenance on our corporate ERP "
+                    "and internal services this Saturday between 02:00 EAT and 05:00 EAT. No disruption to email service is expected.\n\n"
                     "Best regards,\nCorporate IT Service Desk"
                 ),
                 "risk_score": 0,
                 "verdict": "Safe",
                 "confidence": "High",
-                "indicators": [{"name": "Trusted Domain", "score": 0, "message": "Domain microsoft.com is trusted"}],
+                "indicators": [{"name": "Trusted Domain Verification", "score": 0, "message": "Sender is verified on corporate trusted whitelist"}],
                 "status": "inbox",
                 "is_read": True
             },
             {
                 "recipient_id": demo_emp.id,
-                "sender": "hr-benefits@corporate.local",
-                "reply_to": "hr-benefits@corporate.local",
-                "subject": "Open Enrollment: Review Your 2026 Health and Dental Benefits",
+                "sender": "HR Directorate <hr-directorate@corporate.local>",
+                "reply_to": "hr-directorate@corporate.local",
+                "subject": "Corporate All-Hands & Q4 Strategy Briefing",
                 "body": (
                     "Dear Colleague,\n\n"
-                    "Annual open enrollment for corporate health, vision, and dental benefits begins next Monday. "
-                    "Please review the employee benefits portal guide on our internal intranet before submitting your elections.\n\n"
+                    "Please find the agenda for our upcoming quarterly corporate all-hands briefing this Thursday at 10:00 AM. "
+                    "Please review the strategy briefing documents on our intranet before attending.\n\n"
                     "Thank you,\nHuman Resources Department"
                 ),
                 "risk_score": 0,
                 "verdict": "Safe",
                 "confidence": "High",
-                "indicators": [{"name": "Formatting", "score": 0, "message": "Normal formatting"}],
+                "indicators": [{"name": "Trusted Domain Verification", "score": 0, "message": "Internal corporate.local origin"}],
                 "status": "inbox",
                 "is_read": False
             },
             {
                 "recipient_id": demo_emp.id,
-                "sender": "billing-notice@unknown-contractor.com",
-                "reply_to": "billing-notice@unknown-contractor.com",
-                "subject": "Invoice attached for review - Please verify payment details",
+                "sender": "African Leadership Institute <fellowship@international-grants.xyz>",
+                "reply_to": "fellowship@international-grants.xyz",
+                "subject": "Fully Funded Professional Development Fellowship & CPD Credits (Nairobi)",
                 "body": (
-                    "Hello,\n\n"
-                    "Please see attachment regarding the outstanding invoice for services rendered last month. "
-                    "Please verify payment details and invoice approved for $12,450. Open attached document immediately.\n\n"
-                    "Regards,\nVendor Accounts"
+                    "Congratulations!\n\n"
+                    "You have been nominated for a fully funded professional training workshop in Nairobi with 20 free CPD credits and per diem allowance. "
+                    "Nomination slots are strictly limited. Register now at the nomination portal: http://international-grants.xyz/fellowship/apply\n\n"
+                    "Fellowship Admissions Secretariat"
                 ),
-                "risk_score": 45,
+                "risk_score": 50,
                 "verdict": "Suspicious",
                 "confidence": "Medium",
                 "indicators": [
-                    {"name": "Attachment Keyword", "score": 25, "message": "Prompt to open attached invoice"},
-                    {"name": "Financial Fraud", "score": 20, "message": "High dollar amount $12,450 referenced"}
+                    {"name": "Trusted Domain Verification", "score": 15, "message": "External untrusted domain"},
+                    {"name": "Free Training & Fellowship Lure", "score": 35, "message": "Unsolicited fully-funded corporate fellowship lure"}
                 ],
                 "status": "inbox",
                 "is_read": False
             },
             {
                 "recipient_id": demo_emp.id,
-                "sender": "tracking-update@dhl-express-security.xyz",
-                "reply_to": "stealth-drop@gmail.com",
-                "subject": "URGENT: Your DHL Package Delivery Has Been Suspended!",
+                "sender": "Kenya Revenue Authority <support@kra-portal.xyz>",
+                "reply_to": "support@kra-portal.xyz",
+                "subject": "URGENT: KRA Tax Compliance Certificate Suspension & VAT Penalty",
                 "body": (
-                    "URGENT NOTICE!\n\n"
-                    "Your pending package with tracking #DHL-8891244 could not be delivered due to an incorrect delivery address.\n\n"
-                    "ACT NOW! Failure to act within 24 hours will result in your package being destroyed.\n\n"
-                    "Please verify your credit card and billing information immediately at: "
-                    "http://192.168.1.105/secure-login/dhl-verify to pay the $3.50 redelivery fee.\n\n"
-                    "DHL Express Courier Service"
+                    "CRITICAL NOTICE!\n\n"
+                    "Notice of outstanding withholding tax VAT penalty on your KRA iTax PIN. Immediate action required within 24 hours to prevent CRB listing and legal prosecution.\n\n"
+                    "Click http://kra-portal.xyz/itax-login to verify your KRA PIN password and settle the KES 28,400 statutory levy.\n\n"
+                    "Kenya Revenue Authority"
                 ),
-                "risk_score": 145,
+                "risk_score": 200,
                 "verdict": "Quarantine",
                 "confidence": "High",
                 "indicators": [
-                    {"name": "Urgency", "score": 30, "message": "Urgent act now, 24 hours, suspended keywords"},
-                    {"name": "Suspicious Links", "score": 50, "message": "Raw IP address link and lookalike prefix secure-login"},
-                    {"name": "Reply-To Mismatch", "score": 35, "message": "Reply-To gmail.com does not match sender domain"},
-                    {"name": "Credential Harvesting", "score": 30, "message": "Requests credit card and billing information"}
+                    {"name": "Mismatched Display Name Spoofing", "score": 45, "message": "Claims KRA authority from untrusted domain"},
+                    {"name": "Government & Statutory Scam Detector", "score": 45, "message": "Unauthorized revenue authority penalty notice"},
+                    {"name": "Coercive Urgency & Pressure", "score": 25, "message": "Threats of CRB blacklisting and legal prosecution"},
+                    {"name": "Credential & Sensitive Data Probe", "score": 40, "message": "Requests KRA PIN password disclosure"},
+                    {"name": "Suspicious Link Anatomy", "score": 30, "message": "Untrusted high-risk TLD .xyz link target"}
                 ],
                 "status": "quarantined",
                 "is_read": False
             },
             {
                 "recipient_id": demo_emp.id,
-                "sender": "security-alert@micr0soft-support.xyz",
-                "reply_to": "attacker@scam-collect.top",
-                "subject": "CRITICAL: Your corporate password expires in 2 hours - Confirm now",
+                "sender": "Safaricom Customer Care <alerts@safar1com-support.com>",
+                "reply_to": "reversals@stealth-drop.xyz",
+                "subject": "M-PESA Business Float: Confirm Pending Reversal of KES 18,500",
                 "body": (
-                    "Dear employee,\n\n"
-                    "Your enterprise single-sign-on password is scheduled to expire today. "
-                    "Your account will be locked immediately if you do not confirm now.\n\n"
-                    "Visit: http://bit.ly/m365-verify-credentials to enter your current password, bank account verification, and PIN number.\n\n"
-                    "Corporate Security Operations"
+                    "Dear Customer,\n\n"
+                    "Confirmed you have received KES 18,500 overpayment float from Daniel Mwangi. To cancel this transaction or authorize float reversal, "
+                    "visit http://bit.ly/mpesa-reverse-portal immediately and enter your secret M-Pesa PIN.\n\n"
+                    "Safaricom PLC Mobile Financial Services"
                 ),
-                "risk_score": 155,
+                "risk_score": 170,
                 "verdict": "Quarantine",
                 "confidence": "High",
                 "indicators": [
-                    {"name": "Typosquatting", "score": 40, "message": "micr0soft-support.xyz impersonating microsoft.com"},
-                    {"name": "Credential Harvesting", "score": 60, "message": "Requests password, bank account, and PIN"},
-                    {"name": "Suspicious Links", "score": 25, "message": "URL shortener bit.ly used"},
-                    {"name": "Urgency", "score": 30, "message": "Artificial urgency and threat of account lock"}
+                    {"name": "Mismatched Display Name Spoofing", "score": 45, "message": "Claims Safaricom brand from unauthorized domain"},
+                    {"name": "Kenyan Telecom & M-Pesa Fraud", "score": 40, "message": "Fake M-Pesa reversal lure with float settlement context"},
+                    {"name": "Credential & Sensitive Data Probe", "score": 40, "message": "Demands disclosure of secret M-Pesa PIN"},
+                    {"name": "Suspicious Link Anatomy", "score": 30, "message": "Disguised URL shortener link"}
                 ],
                 "status": "quarantined",
                 "is_read": False

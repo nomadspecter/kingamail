@@ -222,3 +222,64 @@ For IT Administrators, the SOC console aggregates data from the `email`, `incide
 For Department Managers, the dashboard isolates their specific team to show what percentage of their staff fell for simulated phishing campaigns and how diligently they report threats. Finally, the compliance report generates an exportable 12-column CSV file that can be handed directly to internal auditors or executive management to prove adherence to corporate cybersecurity awareness standards.
 
 ---
+
+## Regional Threat Intelligence & Original Architecture Overhaul
+### 1. What Was Added
+- 100% Original Heuristic Detection Engine:
+  - Completely rewritten `detection/rules.py` from scratch with 12 Kenyan and regional threat intelligence rules.
+  - Added dedicated M-Pesa & Safaricom mobile money fraud heuristics (reversals, float settlement, Bonga points expiry, Fuliza, SIM swaps).
+  - Added Kenyan Public Sector & Revenue Scam detection (KRA iTax PIN compliance, withholding tax VAT penalties, eCitizen payment mandates, HELB loans, SHIF/NHIF levies).
+  - Added Kenyan Commercial Banking & SACCO Impersonation detection (KCB, Equity, Co-op Bank, NCBA, Stima SACCO, Harambee SACCO, Police SACCO).
+  - Added Public Procurement, County Government Tender & BEC Invoice Fraud detection (forged LPOs, quotation awards, bank account diversion).
+  - Added Original Check #1: Mismatched Sender Display-Name Spoofing (`check_display_name_spoof`).
+  - Added Original Check #2: Free Professional Training & Fellowship Lure (`check_free_training_lure`).
+  - Normalized leetspeak & visual homoglyphs (supporting both `1`->`i` and `1`->`l`, `0`->`o`, `rn`->`m`).
+- Custom Scoring Matrix & Decision Thresholds (`detection/scoring.py`):
+  - Safe: 0 to 24 points.
+  - Suspicious: 25 to 54 points.
+  - Quarantine: 55+ points.
+  - Corroborating confidence ratings (Low, Medium, High).
+- Modern African Enterprise UI & Layout:
+  - Left sidebar navigation (`#app-sidebar`) with role-specific views (`IT Admin`, `Manager`, `Employee`, `Public`).
+  - Custom color palette: Deep African Navy (`#0f172a`), Safari Emerald Green (`#059669`), Savanna Amber (`#d97706`), Threat Crimson (`#dc2626`), and clean Slate Canvas (`#f8fafc`).
+  - Typography: Google Font `'Plus Jakarta Sans'`.
+  - Chart.js 4.4 interactive analytics across dashboards:
+    - SOC Executive Console: Verdicts Doughnut Chart, Top Triggered Rules Horizontal Bar Chart, Weekly Reports Trend Line Chart.
+    - Department Manager Dashboard: Staff Clicks vs. Reports Bar Chart, Assessment Pass/Fail Doughnut Chart.
+    - Compliance Reports: Cross-Department Awareness Benchmarking Grouped Bar Chart.
+  - Mobile Responsiveness: Slide-out offcanvas drawer with hamburger toggle for smartphone screens.
+- Authentic Kenyan Workplace Simulation Scenarios:
+  - Free Professional Training & CPD Fellowship Lure.
+  - Statutory SHIF Transition & Payroll Bank Verification Directive.
+  - Safaricom M-Pesa Petty Cash & Corporate Airtime Float Drill.
+  - County Government Tender Award & Pre-Qualification Notice.
+  - Privacy guarantee: Tracked links record click timestamps only; zero credential capture.
+- Complete Cleansing:
+  - Removed all leftover code, comments, old author references, and obsolete wordlists.
+  - Comprehensive master test suite (`test_original_suite.py`) validating all 12 rules, thresholds, and UI structure against Supabase PostgreSQL.
+
+### 2. Files Involved
+- `detection/rules.py`: 12 Kenyan threat heuristic rules and original detection checks.
+- `detection/scoring.py`: Custom thresholds (0-24, 25-54, 55+) and verdict aggregator.
+- `detection/parser.py`: Kenyan ccTLD extractor, display-name parser, and unicode normalizer.
+- `config.py`: Added Kenyan malicious threat samples to `KNOWN_BAD_DOMAINS`.
+- `static/css/style.css`: Original stylesheet with left sidebar layout and Plus Jakarta Sans font.
+- `templates/base.html`: Left sidebar layout, role-specific navigation, and Chart.js CDN.
+- `templates/dashboard_admin.html`: SOC console with Chart.js doughnut, bar, and line charts.
+- `templates/dashboard_manager.html`: Manager dashboard with Chart.js awareness charts.
+- `templates/reports.html`: Compliance report with Chart.js benchmarking bar chart.
+- `templates/email_detail.html`: Threat inspection view aligned with custom thresholds.
+- `templates/analyze.html`: Threat scanner with Kenyan threat presets.
+- `templates/campaigns_list.html`: Simulation campaign launcher with Kenyan workplace presets.
+- `seed.py`: Updated with authentic Kenyan safe, suspicious, and quarantined emails.
+- `test_original_suite.py`: Automated integration test suite validating all 12 Kenyan rules and thresholds.
+- `README.md`: Overhauled documentation for KingaMail (Kenya Edition).
+
+### 3. How It Works (Student Explanation)
+Cybercriminals attacking Kenyan organizations rarely use generic templates; they exploit real-world local contexts such as urgent KRA tax compliance deadlines, M-Pesa transaction reversal panics, fake county tender awards, and unsolicited training workshops in Nairobi.
+
+KingaMail's detection engine checks every incoming message against 12 localized rules. If an email claims in its display name to be from the Kenya Revenue Authority but originates from an external domain, Rule 3 immediately flags the display-name spoof (+45 pts). If the email body also threatens legal prosecution (+25 pts) and demands a KRA PIN password (+40 pts), the cumulative score reaches 110 points, driving the email well beyond the 55-point Quarantine threshold. 
+
+In the web interface, the system adopts a clean, responsive left sidebar layout where each employee or administrator only sees the navigation options relevant to their role. Visual dashboards leverage Chart.js to render real-time doughnut, bar, and trend line charts showing where attacks originate and which departments need additional awareness coaching.
+
+---

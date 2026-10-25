@@ -1,47 +1,49 @@
 """
-detection/scoring.py - Scoring Engine & Verdict Aggregation
------------------------------------------------------------
-Student explanation:
-This module coordinates the phishing detection engine and aggregates the risk score.
+detection/scoring.py - Threat Scoring Matrix & Verdict Decision Pipeline
+========================================================================
+Student Explanation:
+Aggregates outcomes from all 12 heuristic detection checks into an explainable,
+points-based risk score (0 to 100+), determines confidence, and maps the total
+score to an operational security verdict:
 
-DETECTION IS FULLY RULE-BASED AND SELF-CONTAINED:
-  - 100% offline-capable: operates strictly on local heuristic rules, keyword patterns,
-    the configured KNOWN_BAD_DOMAINS list, and the database blocked_sender table.
-  - Zero machine learning models and zero external network dependencies are required.
-  - External threat intelligence (VirusTotal) is strictly optional (ENABLE_VIRUSTOTAL=False
-    by default). When it is off, the app NEVER calls VirusTotal or any external service
-    during an email scan.
+Custom Verdict Thresholds:
+  - 0 to 24 points:   'Safe'       -> Delivered directly to employee mailbox.
+  - 25 to 54 points:  'Suspicious' -> Delivered with an amber security warning banner.
+  - 55+ points:       'Quarantine' -> Automatically isolated away from the mailbox.
 
-Verdict thresholds:
-  - 0 to 30 points:  'Safe' (delivered directly to inbox)
-  - 31 to 70 points: 'Suspicious' (warning banner displayed)
-  - 71+ points:      'Quarantine' (isolated from employee mailbox)
+DETECTION IS 100% SELF-CONTAINED AND DETERMINISTIC:
+Zero machine learning, zero external API dependencies, and fully explainable point scoring.
 """
 
-from detection.parser import extract_email_parts, extract_domain
+from detection.parser import (
+    extract_email_parts,
+    extract_domain
+)
 from detection.rules import (
     check_blocklist,
     check_trusted_domain,
-    check_typosquatting,
-    check_reply_to_mismatch,
-    check_urgency,
-    check_sensitivity,
-    check_suspicious_links,
-    check_too_good,
-    check_manipulation,
-    check_brand_impersonation,
-    check_formatting,
-    check_money_scam,
-    scan_domain_virustotal,
-    scan_urls_virustotal
+    check_display_name_spoof,
+    check_kenya_telecom_mpesa,
+    check_kenya_government_compliance,
+    check_kenya_financial_sacco,
+    check_tender_invoice_fraud,
+    check_free_training_lure,
+    check_typosquatting_lookalikes,
+    check_urgency_coercion,
+    check_credential_harvesting,
+    check_suspicious_hyperlinks
 )
 
+# Custom Scoring Thresholds
+THRESHOLD_SAFE_MAX = 24
+THRESHOLD_SUSPICIOUS_MAX = 54
+# 55+ points = Quarantine
 
-def analyze_email(raw_email, enable_virustotal=None, vt_api_key=None, known_bad_domains=None, custom_blocked=None):
+
+def analyze_email(raw_email: str, enable_virustotal: bool = False, vt_api_key: str = None, known_bad_domains=None, custom_blocked=None) -> dict:
     """
-    Analyzes an email string (or RFC headers + body) through all local heuristic rules.
-    Detection is fully rule-based and self-contained.
-    External threat intelligence (VirusTotal) is never called when disabled.
+    Evaluates raw email text or discrete fields against the 12 Kenyan-tailored
+    heuristic rules. Completely offline and deterministic.
 
     Returns:
       {
@@ -49,94 +51,73 @@ def analyze_email(raw_email, enable_virustotal=None, vt_api_key=None, known_bad_
         "total_score": int,
         "confidence": "Low" | "Medium" | "High",
         "triggered_count": int,
-        "checks": [ ... ],
-        "parsed": { ... }
+        "checks": list of check dicts,
+        "parsed": dict of parsed email components
       }
     """
-    parts = extract_email_parts(raw_email)
-    from_address = parts["from_address"]
-    reply_to = parts["reply_to"]
-    subject = parts["subject"]
-    body = parts["body"]
+    parsed = extract_email_parts(raw_email)
+    from_name = parsed["from_name"]
+    from_address = parsed["from_address"]
+    reply_to = parsed["reply_to"]
+    subject = parsed["subject"]
+    body = parsed["body"]
 
     sender_domain = extract_domain(from_address)
 
-    # Resolve settings from Flask current_app or Config fallback
-    if enable_virustotal is None or known_bad_domains is None:
+    # Resolve configuration fallbacks cleanly
+    if known_bad_domains is None:
         try:
             from flask import current_app
             if current_app:
-                if enable_virustotal is None:
-                    enable_virustotal = current_app.config.get("ENABLE_VIRUSTOTAL", False)
-                if vt_api_key is None and enable_virustotal:
-                    vt_api_key = current_app.config.get("VIRUSTOTAL_API_KEY", "")
-                if known_bad_domains is None:
-                    known_bad_domains = current_app.config.get("KNOWN_BAD_DOMAINS", [])
+                known_bad_domains = current_app.config.get("KNOWN_BAD_DOMAINS", [])
         except Exception:
-            pass
+            try:
+                from config import Config
+                known_bad_domains = getattr(Config, "KNOWN_BAD_DOMAINS", [])
+            except Exception:
+                known_bad_domains = []
 
-    if known_bad_domains is None:
-        try:
-            from config import Config
-            known_bad_domains = getattr(Config, "KNOWN_BAD_DOMAINS", [])
-            if enable_virustotal is None:
-                enable_virustotal = getattr(Config, "ENABLE_VIRUSTOTAL", False)
-            if vt_api_key is None and enable_virustotal:
-                vt_api_key = getattr(Config, "VIRUSTOTAL_API_KEY", "")
-        except Exception:
-            known_bad_domains = []
-
-    # Execute all 12 fully self-contained, offline heuristic checks
-    results = [
+    # Run all 12 custom heuristic checks
+    checks = [
         check_blocklist(sender_domain, body, known_bad_domains=known_bad_domains, custom_blocked=custom_blocked),
         check_trusted_domain(sender_domain),
-        check_typosquatting(sender_domain),
-        check_reply_to_mismatch(from_address, reply_to),
-        check_urgency(subject, body),
-        check_sensitivity(body),
-        check_suspicious_links(body),
-        check_too_good(body),
-        check_manipulation(body),
-        check_brand_impersonation(subject, body, sender_domain),
-        check_formatting(subject, body),
-        check_money_scam(subject, body)
+        check_display_name_spoof(from_name, sender_domain),
+        check_kenya_telecom_mpesa(subject, body),
+        check_kenya_government_compliance(subject, body, sender_domain),
+        check_kenya_financial_sacco(subject, body, sender_domain),
+        check_tender_invoice_fraud(subject, body),
+        check_free_training_lure(subject, body),
+        check_typosquatting_lookalikes(sender_domain, body),
+        check_urgency_coercion(subject, body),
+        check_credential_harvesting(body),
+        check_suspicious_hyperlinks(body)
     ]
 
-    # External threat intelligence: ONLY queried when explicitly enabled AND an API key is present.
-    # When disabled (the default), this block is skipped completely — NO network calls are made.
-    if enable_virustotal and vt_api_key:
-        vt_domain = scan_domain_virustotal(sender_domain, api_key=vt_api_key, enabled=True)
-        if vt_domain:
-            results.append(vt_domain)
-        vt_urls = scan_urls_virustotal(body, api_key=vt_api_key, enabled=True)
-        if vt_urls:
-            results.append(vt_urls)
+    # Calculate cumulative risk score
+    total_score = sum(c["score"] for c in checks)
+    triggered_count = sum(1 for c in checks if c["triggered"])
 
-    # Calculate total risk score across all local and active checks
-    total_score = sum(r["score"] for r in results)
-
-    # Calculate detection confidence based on number of triggered independent indicators
-    triggered_count = sum(1 for r in results if r["score"] > 0)
-    if triggered_count >= 5:
-        confidence = "High"
-    elif triggered_count >= 3:
-        confidence = "Medium"
-    else:
-        confidence = "Low"
-
-    # Assign corporate verdict based on accumulated score
-    if total_score <= 30:
+    # Map score to custom security verdict
+    if total_score <= THRESHOLD_SAFE_MAX:
         verdict = "Safe"
-    elif total_score <= 70:
+    elif total_score <= THRESHOLD_SUSPICIOUS_MAX:
         verdict = "Suspicious"
     else:
         verdict = "Quarantine"
+
+    # Compute confidence rating based on corroborating signals
+    if triggered_count >= 3 or total_score >= 60:
+        confidence = "High"
+    elif triggered_count >= 1 or total_score >= 25:
+        confidence = "Medium"
+    else:
+        confidence = "Low"
 
     return {
         "verdict": verdict,
         "total_score": total_score,
         "confidence": confidence,
         "triggered_count": triggered_count,
-        "checks": results,
-        "parsed": parts
+        "checks": checks,
+        "parsed": parsed
     }

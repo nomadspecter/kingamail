@@ -42,12 +42,12 @@
             </div>
             <div class="card-body p-4 text-center">
                 <div class="mb-3">
-                    {% if email.risk_score <= 30 %}
+                    {% if email.risk_score <= 24 %}
                         <div class="display-3 fw-bold text-success font-monospace">{{ email.risk_score }}<span class="fs-6 text-muted">/100</span></div>
                         <span class="badge bg-success fs-6 px-3 py-2 mt-1">
                             <i class="bi bi-shield-check me-1"></i> Safe (Delivered to Inbox)
                         </span>
-                    {% elif email.risk_score <= 70 %}
+                    {% elif email.risk_score <= 54 %}
                         <div class="display-3 fw-bold text-warning font-monospace">{{ email.risk_score }}<span class="fs-6 text-muted">/100</span></div>
                         <span class="badge bg-warning text-dark fs-6 px-3 py-2 mt-1">
                             <i class="bi bi-exclamation-triangle-fill me-1"></i> Suspicious (Caution Advised)
@@ -61,14 +61,14 @@
                 </div>
 
                 <div class="progress my-3" style="height: 10px;">
-                    <div class="progress-bar {% if email.risk_score <= 30 %}bg-success{% elif email.risk_score <= 70 %}bg-warning{% else %}bg-danger{% endif %}"
+                    <div class="progress-bar {% if email.risk_score <= 24 %}bg-success{% elif email.risk_score <= 54 %}bg-warning{% else %}bg-danger{% endif %}"
                          role="progressbar" style="width: {{ email.risk_score }}%"></div>
                 </div>
 
                 <div class="d-flex justify-content-between small text-muted font-monospace">
-                    <span>0: Clean</span>
-                    <span>30: Warning</span>
-                    <span>70: Quarantine</span>
+                    <span>0: Safe</span>
+                    <span>24: Safe Limit</span>
+                    <span>55: Quarantine</span>
                     <span>100: Critical</span>
                 </div>
             </div>

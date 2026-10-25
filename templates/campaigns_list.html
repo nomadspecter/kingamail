@@ -120,6 +120,21 @@
                         Links direct to an educational landing page with <strong>zero credential collection</strong>.
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted d-block">Load Kenyan Simulation Template:</label>
+                        <div class="d-flex flex-wrap gap-1">
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setSimPreset('training')">
+                                <i class="bi bi-mortarboard me-1"></i> Free Training Lure
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="setSimPreset('payroll')">
+                                <i class="bi bi-cash-stack me-1"></i> HR Payroll & SHIF
+                            </button>
+                            <button type="button" class="btn btn-outline-success btn-sm" onclick="setSimPreset('mpesa')">
+                                <i class="bi bi-phone me-1"></i> M-Pesa Reimbursement
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="name" class="form-label small fw-semibold">Campaign Name</label>
@@ -162,5 +177,27 @@ Please click the secure link below to confirm your login session.</textarea>
             </form>
         </div>
     </div>
-</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function setSimPreset(type) {
+    if (type === 'training') {
+        document.getElementById('name').value = '2026 Executive Fellowship & Free CPD Awareness Assessment';
+        document.getElementById('description').value = 'Testing employee resilience against unsolicited corporate training fellowships and fake CPD accreditation lures.';
+        document.getElementById('subject').value = '[Mandatory HR Alert] Fully Sponsored Professional Certification & CPD Credits (Nairobi Fellowship)';
+        document.getElementById('body').value = 'Dear Colleague,\n\nThe Human Resources Directorate has reserved 15 corporate slots for the upcoming 3-Day Executive Governance & Risk Management Fellowship in Nairobi with 25 certified CPD credits and full per diem coverage.\n\nPlease click the employee nomination link below to confirm your department allocation before enrollment closes.';
+    } else if (type === 'payroll') {
+        document.getElementById('name').value = 'Statutory SHIF Transition & Payroll Bank Verification';
+        document.getElementById('description').value = 'Evaluating workforce response to urgent payroll directives and statutory healthcare benefit transitions.';
+        document.getElementById('subject').value = '[URGENT] Payroll Directive: SHIF Statutory Transition & Bank Verification';
+        document.getElementById('body').value = 'Dear Staff Member,\n\nFollowing the gazetted national transition from NHIF to the Social Health Insurance Fund (SHIF), all corporate payroll records must be re-verified prior to this month end run.\n\nClick the link below to verify your KRA tax exemption and national identity details to prevent disbursement suspension.';
+    } else if (type === 'mpesa') {
+        document.getElementById('name').value = 'Safaricom M-Pesa Enterprise Float & Reimbursement Drill';
+        document.getElementById('description').value = 'Assessing staff vigilance against simulated corporate airtime and M-Pesa float reimbursement notices.';
+        document.getElementById('subject').value = 'Safaricom Business Float: Pending M-Pesa Petty Cash & Airtime Reimbursement';
+        document.getElementById('body').value = 'Dear Colleague,\n\nA petty cash and travel airtime reimbursement voucher of KES 8,450 allocated to your staff account could not be settled automatically.\n\nPlease review the attached disbursement voucher and click below to authorize receipt before float cancellation.';
+    }
+}
+</script>
 {% endblock %}
