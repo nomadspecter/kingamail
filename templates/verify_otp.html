@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Verify One-Time Code — {{ system_name }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-4">
+    <div class="col-md-5 col-lg-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <div class="brand-icon mx-auto mb-3" style="width: 48px; height: 48px; background: #e0f2fe; color: #0284c7;">
+                        <i class="bi bi-phone-vibrate fs-3"></i>
+                    </div>
+                    <h4 class="fw-bold mb-1">Two-Factor Authentication</h4>
+                    <p class="text-muted small mb-0">Enter the 6-digit code dispatched for <strong>{{ email }}</strong></p>
+                </div>
+
+                {% if demo_otp %}
+                <div class="alert alert-info border-info-subtle py-3 mb-3 text-center">
+                    <div class="small fw-semibold text-uppercase tracking-wide text-primary mb-1">
+                        <i class="bi bi-info-circle-fill me-1"></i> DEMO_MODE: Verification Code
+                    </div>
+                    <div class="display-6 fw-bold letter-spacing-2 text-dark font-monospace">{{ demo_otp }}</div>
+                    <div class="small text-muted mt-1">Code is securely hashed in the database & valid for 5 minutes.</div>
+                </div>
+                {% endif %}
+
+                <form method="POST" action="{{ url_for('auth.verify_otp') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <div class="mb-3 text-center">
+                        <label for="otp_code" class="form-label small fw-semibold">6-Digit Passcode</label>
+                        <input type="text"
+                               class="form-control form-control-lg text-center font-monospace fs-3 letter-spacing-3"
+                               id="otp_code"
+                               name="otp_code"
+                               maxlength="6"
+                               placeholder="••••••"
+                               required
+                               autofocus
+                               autocomplete="one-time-code"
+                               value="{{ demo_otp if demo_otp else '' }}">
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg fs-6">
+                            <i class="bi bi-check-circle me-1"></i> Verify Code & Sign In
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3 pt-3 border-top">
+                    <span class="small text-muted">Didn't receive code?</span>
+                    <a href="{{ url_for('auth.resend_otp') }}" class="small fw-semibold text-decoration-none ms-1">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Resend Code
+                    </a>
+                </div>
+            </div>
+            <div class="card-footer bg-light py-2 text-center small text-muted">
+                <a href="{{ url_for('auth.logout') }}" class="text-muted text-decoration-none">
+                    <i class="bi bi-arrow-left me-1"></i>Back to login screen
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

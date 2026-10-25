@@ -22,7 +22,7 @@ from detection.parser import normalize_unicode, get_base_domain, extract_domain
 # ─── REPUTATION & THREAT LISTS ─────────────────────────────────
 
 TRUSTED_DOMAINS = [
-    "gmail.com", "outlook.com", "hotmail.com", "yahoo.com",
+    "corporate.local", "gmail.com", "outlook.com", "hotmail.com", "yahoo.com",
     "icloud.com", "protonmail.com", "live.com", "github.com",
     "apple.com", "paypal.com", "amazon.com", "microsoft.com",
     "google.com", "facebook.com", "instagram.com", "twitter.com",
@@ -161,23 +161,36 @@ def check_blocklist(sender_domain, body, known_bad_domains=None, custom_blocked=
     }
 
 
-def check_trusted_domain(domain):
+def check_trusted_domain(domain, trusted_list=None):
     """
     Check 1: Trusted Domain Whitelist
     Determines if the sender domain is recognized in the corporate trusted list.
+    Uses TRUSTED_DOMAINS from config.py (including 'corporate.local') so internal
+    staff emails are never penalized.
     """
     if not domain:
         return {"name": "Trusted Domain", "score": 0, "message": "No sender domain found"}
-    if domain in TRUSTED_DOMAINS:
+
+    if trusted_list is None:
+        try:
+            from config import Config
+            trusted_list = getattr(Config, "TRUSTED_DOMAINS", TRUSTED_DOMAINS)
+        except Exception:
+            trusted_list = TRUSTED_DOMAINS
+
+    clean_d = domain.strip().lower()
+    clean_base = get_base_domain(clean_d)
+
+    if clean_d in trusted_list or clean_base in trusted_list:
         return {
             "name": "Trusted Domain",
             "score": 0,
-            "message": f"Sender domain '{domain}' is recognized as trusted"
+            "message": f"Sender domain '{clean_d}' is recognized as trusted"
         }
     return {
         "name": "Trusted Domain",
         "score": 20,
-        "message": f"Sender domain '{domain}' is not on the recognized trusted domain whitelist"
+        "message": f"Sender domain '{clean_d}' is not on the recognized trusted domain whitelist"
     }
 
 

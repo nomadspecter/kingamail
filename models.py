@@ -8,7 +8,7 @@ Python class instances into database rows and allows querying using Python code
 without writing raw SQL strings, which also prevents SQL injection attacks.
 """
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import db
 
@@ -76,8 +76,8 @@ class User(db.Model):
     # Account status: active, locked, compromised
     status = db.Column(db.String(20), default="active", nullable=False)
 
-    # 2FA One-Time Passcode (OTP) fields
-    otp_code = db.Column(db.String(6), nullable=True)
+    # 2FA One-Time Passcode (OTP) fields - stored hashed with 5-minute expiry
+    otp_code = db.Column(db.String(255), nullable=True)
     otp_expiry = db.Column(db.DateTime, nullable=True)
 
     # Security flags
@@ -102,6 +102,24 @@ class User(db.Model):
     def check_password(self, password):
         """Verifies a plain password against the stored password hash."""
         return check_password_hash(self.password_hash, password)
+
+    def set_otp(self, raw_code: str):
+        """Stores the one-time passcode securely hashed with a 5-minute expiry."""
+        self.otp_code = generate_password_hash(raw_code)
+        self.otp_expiry = datetime.utcnow() + timedelta(minutes=5)
+
+    def check_otp(self, raw_code: str) -> bool:
+        """Verifies plain OTP against stored hash and checks 5-minute expiration."""
+        if not self.otp_code or not self.otp_expiry:
+            return False
+        if datetime.utcnow() > self.otp_expiry:
+            return False
+        return check_password_hash(self.otp_code, raw_code)
+
+    def clear_otp(self):
+        """Clears OTP state once verified or expired."""
+        self.otp_code = None
+        self.otp_expiry = None
 
     def is_active(self):
         return self.status == "active"

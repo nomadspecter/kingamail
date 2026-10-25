@@ -138,6 +138,19 @@ class Config:
     else:
         VIRUSTOTAL_API_KEY = ""
 
+    # Demo Mode setting: Shows 2FA OTP codes on screen and logs to console (for demo only)
+    DEMO_MODE = os.getenv("DEMO_MODE", "True").strip().lower() in ("true", "1", "t", "yes")
+
+    # Trusted domain whitelist: internal corporate domain plus major service providers.
+    # Emails from these domains are not penalised by check_trusted_domain.
+    TRUSTED_DOMAINS = [
+        "corporate.local", "gmail.com", "outlook.com", "hotmail.com", "yahoo.com",
+        "icloud.com", "protonmail.com", "live.com", "github.com",
+        "apple.com", "paypal.com", "amazon.com", "microsoft.com",
+        "google.com", "facebook.com", "instagram.com", "twitter.com",
+        "linkedin.com", "netflix.com", "spotify.com", "dropbox.com"
+    ]
+
     # Local blocklist of known malicious / scam domains (evaluated offline)
     KNOWN_BAD_DOMAINS = [
         "micr0soft-support.xyz",

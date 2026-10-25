@@ -60,6 +60,12 @@ def manager_dashboard():
     return render_template("dashboard_manager.html")
 
 
+@dashboard_bp.route("/reports")
+def reports_overview():
+    """Security and compliance reports overview (Phase 6)."""
+    return render_template("dashboard_admin.html")
+
+
 @dashboard_bp.route("/health")
 def health():
     """Health check endpoint returning system status in JSON."""
