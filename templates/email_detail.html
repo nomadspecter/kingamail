@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Threat Analysis: {{ email.subject }} — {{ system_name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+            <a href="{{ url_for('emails.inbox') if email.status == 'inbox' else url_for('emails.quarantine') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <h4 class="fw-bold mb-0">Email Threat Inspection</h4>
+            <span class="badge {% if email.status == 'inbox' %}bg-primary{% else %}bg-danger{% endif %} text-uppercase">
+                {{ email.status }}
+            </span>
+        </div>
+        <p class="text-muted small mb-0">Inspected by {{ system_name }} Heuristic Rules Engine (100% Offline & Rule-Based)</p>
+    </div>
+    <div class="d-flex gap-2">
+        {% if not email.is_reported %}
+        <form method="POST" action="{{ url_for('reports.submit_report', email_id=email.id) }}" class="d-inline">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-danger btn-sm">
+                <i class="bi bi-flag-fill me-1"></i> Report as Phishing
+            </button>
+        </form>
+        {% else %}
+        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2">
+            <i class="bi bi-check2-circle me-1"></i> Reported to SOC
+        </span>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Left Column: Security Verdict & Triggered Indicators -->
+    <div class="col-lg-5">
+        <!-- Threat Verdict Card -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light py-3">
+                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-shield-shaded me-2"></i>Security Verdict</h6>
+            </div>
+            <div class="card-body p-4 text-center">
+                <div class="mb-3">
+                    {% if email.risk_score <= 30 %}
+                        <div class="display-3 fw-bold text-success font-monospace">{{ email.risk_score }}<span class="fs-6 text-muted">/100</span></div>
+                        <span class="badge bg-success fs-6 px-3 py-2 mt-1">
+                            <i class="bi bi-shield-check me-1"></i> Safe (Delivered to Inbox)
+                        </span>
+                    {% elif email.risk_score <= 70 %}
+                        <div class="display-3 fw-bold text-warning font-monospace">{{ email.risk_score }}<span class="fs-6 text-muted">/100</span></div>
+                        <span class="badge bg-warning text-dark fs-6 px-3 py-2 mt-1">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i> Suspicious (Caution Advised)
+                        </span>
+                    {% else %}
+                        <div class="display-3 fw-bold text-danger font-monospace">{{ email.risk_score }}<span class="fs-6 text-muted">/100</span></div>
+                        <span class="badge bg-danger fs-6 px-3 py-2 mt-1">
+                            <i class="bi bi-shield-slash-fill me-1"></i> Malicious Threat (Quarantined)
+                        </span>
+                    {% endif %}
+                </div>
+
+                <div class="progress my-3" style="height: 10px;">
+                    <div class="progress-bar {% if email.risk_score <= 30 %}bg-success{% elif email.risk_score <= 70 %}bg-warning{% else %}bg-danger{% endif %}"
+                         role="progressbar" style="width: {{ email.risk_score }}%"></div>
+                </div>
+
+                <div class="d-flex justify-content-between small text-muted font-monospace">
+                    <span>0: Clean</span>
+                    <span>30: Warning</span>
+                    <span>70: Quarantine</span>
+                    <span>100: Critical</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Triggered Indicators Card -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light py-3">
+                <h6 class="fw-bold mb-0 text-dark">
+                    <i class="bi bi-cpu me-2"></i>Heuristic Analysis Breakdown
+                </h6>
+            </div>
+            <div class="card-body p-3">
+                {% if email.indicators %}
+                <div class="list-group list-group-flush">
+                    {% for item in email.indicators %}
+                    <div class="list-group-item px-0 py-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="fw-semibold text-dark">{{ item.name if item.name else item.rule }}</span>
+                            <span class="badge {% if item.score > 20 %}bg-danger{% elif item.score > 0 %}bg-warning text-dark{% else %}bg-success{% endif %}">
+                                +{{ item.score }} pts
+                            </span>
+                        </div>
+                        <p class="text-muted small mb-0">{{ item.message if item.message else item.details }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-4 text-muted small">
+                    <i class="bi bi-check-circle-fill text-success fs-3 d-block mb-1"></i>
+                    No malicious heuristic patterns triggered for this message.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Message Headers & Body -->
+    <div class="col-lg-7">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light py-3">
+                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-envelope-paper me-2"></i>Email Header & Metadata</h6>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-3 small">
+                    <div class="col-sm-6">
+                        <span class="text-muted d-block fw-semibold">From:</span>
+                        <span class="font-monospace text-dark">{{ email.sender }}</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <span class="text-muted d-block fw-semibold">Reply-To:</span>
+                        <span class="font-monospace text-dark">{{ email.reply_to if email.reply_to else '(Same as From)' }}</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <span class="text-muted d-block fw-semibold">Subject:</span>
+                        <span class="fw-bold text-dark">{{ email.subject }}</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <span class="text-muted d-block fw-semibold">Received Timestamp:</span>
+                        <span class="text-dark">{{ email.received_at.strftime('%Y-%m-%d %H:%M:%S UTC') }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-body-text me-2"></i>Email Message Content</h6>
+                <span class="badge bg-secondary-subtle text-secondary small">Sanitized Preview</span>
+            </div>
+            <div class="card-body p-4">
+                {% if email.verdict in ['Suspicious', 'Quarantine'] %}
+                <div class="alert alert-warning small py-2 mb-3">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                    <strong>Caution:</strong> This email was flagged with elevated risk indicators. Do NOT click unverified links or enter credentials.
+                </div>
+                {% endif %}
+
+                <div class="p-3 bg-light rounded border font-monospace text-dark" style="white-space: pre-wrap; font-size: 0.92rem; min-height: 200px;">{{ email.body }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

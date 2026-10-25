@@ -64,3 +64,38 @@ Authentication occurs in two distinct stages. In Stage 1, the user enters their 
 If Stage 1 succeeds, Stage 2 generates a cryptographically random 6-digit OTP. The system hashes this OTP and stores it alongside a timestamp set to `now + 5 minutes`. The user is redirected to `/auth/verify-otp`. When the user enters the code, `check_otp()` checks both that `datetime.utcnow() < otp_expiry` and that the hash matches. Upon verification, the OTP is cleared from the database, a secure session is minted, and the user's role is inspected by `@role_required` to permit access to authorized areas.
 
 ---
+
+## Phase 3: Threat Detection, Mailbox & Security Inspection UI
+### 1. What Was Added
+- Complete Corporate Mailbox interface (`/emails/inbox`) displaying real-time risk scores, verdict badges, read/unread states, and search filtering.
+- Strict Mailbox authorization: Parameterized queries ensure users can only view their own emails; attempts to access emails belonging to other users return HTTP 403 Forbidden.
+- Email Threat Detail Inspection View (`/emails/view/<email_id>`):
+  - Risk score gauge (0-100) and confidence rating.
+  - Detailed heuristic breakdown table showing all triggered indicators, penalty points, and detection messages.
+  - Sanitized body viewer with disarmed links to prevent accidental compromise.
+  - One-click "Report as Phishing" button.
+- Quarantine Module (`/emails/quarantine`):
+  - Isolates malicious messages (score > 70) from employee inboxes.
+  - Role-aware visibility: Employees view personal quarantined emails; IT Admins inspect enterprise-wide quarantined items with "Release to Inbox" and "Delete" capabilities.
+- On-Demand Threat Scanner (`/emails/analyze`):
+  - Interactive analyzer accepting raw email text or discrete sender/subject/body fields.
+  - Interactive demo presets ("Clean Staff Memo", "Typosquatted IT Alert", "DHL Scam Link").
+  - Evaluates against all 12 heuristic rules and the database `blocked_sender` table in a 100% offline, self-contained pipeline.
+- Whitelist protection: Verified internal `corporate.local` domain is recognized in `check_trusted_domain` and never receives penalty points.
+
+### 2. Files Involved
+- `routes/emails.py`: Mailbox, threat inspection, quarantine, and on-demand scanner controllers.
+- `routes/reports.py`: Added `submit_report` endpoint to allow reporting emails from the mailbox.
+- `detection/rules.py`: Enhanced `check_typosquatting` with brand detection and `check_blocklist` with automatic config fallback.
+- `templates/inbox.html`: Mailbox table with risk meters and quick reporting.
+- `templates/quarantine.html`: Isolated threat viewer with release and delete actions.
+- `templates/email_detail.html`: Threat inspection layout with indicator cards and disarmed preview.
+- `templates/analyze.html`: Interactive on-demand scanner with preset demo scenarios.
+- `test_phase3.py`: Automated integration test suite validating offline detection and mailbox security against Supabase PostgreSQL.
+
+### 3. How It Works (Student Explanation)
+Emails in the system are evaluated through the 12 heuristic checks in `detection/rules.py`. An email with an internal sender ending in `@corporate.local` passes `check_trusted_domain` with 0 points. If an email comes from an untrusted or lookalike domain (such as `micr0soft-support.xyz`), it accumulates points for typosquatting (+40), local blocklist matching (+60), and psychological urgency (+30). If the accumulated score exceeds 70, its status is set to `quarantined`, automatically shielding the employee's inbox. 
+
+In the web interface, the employee can safely inspect the email in the threat viewer, where dangerous links are rendered in sanitized text rather than executable hyperlinks. IT Administrators have elevated privileges: they can review all quarantined threats across the company and, if a message is deemed a false positive, release it back to the recipient's inbox.
+
+---

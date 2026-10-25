@@ -3,24 +3,98 @@
 {% block title %}Email Quarantine — {{ system_name }}{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
-        <h3 class="fw-bold mb-1"><i class="bi bi-shield-x text-danger me-2"></i>Quarantined Messages</h3>
-        <p class="text-muted small mb-0">High-risk emails isolated from employee inboxes</p>
+        <h3 class="fw-bold mb-1"><i class="bi bi-shield-x text-danger me-2"></i>Email Quarantine</h3>
+        <p class="text-muted small mb-0">High-risk messages isolated to prevent credential harvesting and malware delivery</p>
     </div>
-    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2">Phase 3 Integration</span>
+    <div>
+        <a href="{{ url_for('emails.inbox') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-inbox me-1"></i> Return to Inbox
+        </a>
+    </div>
 </div>
 
-<div class="card shadow-sm">
-    <div class="card-body p-4 text-center">
-        <i class="bi bi-shield-slash fs-1 text-danger d-block mb-3"></i>
-        <h5>Quarantine Isolation Module</h5>
-        <p class="text-muted small mb-3">
-            In Phase 3, emails flagged with risk score > 70 are quarantined here for security team review.
-        </p>
-        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left me-1"></i> Return to Foundation Overview
-        </a>
+<div class="card shadow-sm border-0 border-top border-danger border-4">
+    <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+        <span class="fw-semibold text-dark">
+            <i class="bi bi-shield-slash me-2"></i>Isolated Malicious & High-Risk Messages
+            {% if is_admin %}
+                <span class="badge bg-danger-subtle text-danger ms-2">SOC Enterprise View</span>
+            {% endif %}
+        </span>
+        <span class="text-muted small">Total: {{ emails|length }}</span>
+    </div>
+    <div class="card-body p-0">
+        {% if emails %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light small text-muted text-uppercase">
+                    <tr>
+                        <th>Sender</th>
+                        <th>Subject</th>
+                        <th style="width: 130px;">Risk Score</th>
+                        <th style="width: 140px;">Verdict</th>
+                        <th style="width: 160px;">Isolated Date</th>
+                        <th style="width: 220px;" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for email in emails %}
+                    <tr>
+                        <td>
+                            <div class="fw-semibold text-truncate" style="max-width: 220px;">{{ email.sender }}</div>
+                            {% if is_admin and email.recipient %}
+                                <div class="text-muted small">Target: {{ email.recipient.email }}</div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('emails.view_email', email_id=email.id) }}" class="text-decoration-none text-dark fw-semibold">
+                                {{ email.subject }}
+                            </a>
+                        </td>
+                        <td>
+                            <span class="badge bg-danger fs-6">{{ email.risk_score }}/100</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
+                                <i class="bi bi-shield-slash-fill me-1"></i> {{ email.verdict }}
+                            </span>
+                        </td>
+                        <td class="small text-muted">
+                            {{ email.received_at.strftime('%b %d, %Y %H:%M') }}
+                        </td>
+                        <td class="text-end">
+                            <div class="d-flex justify-content-end gap-1">
+                                <a href="{{ url_for('emails.view_email', email_id=email.id) }}" class="btn btn-outline-secondary btn-sm" title="Inspect Rules Breakdown">
+                                    <i class="bi bi-eye"></i> Inspect
+                                </a>
+                                <form method="POST" action="{{ url_for('emails.release_email', email_id=email.id) }}" class="d-inline">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-outline-success btn-sm" title="Release message to Inbox" onclick="return confirm('Are you sure you want to release this isolated email to the inbox?');">
+                                        <i class="bi bi-box-arrow-up-right"></i> Release
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ url_for('emails.delete_email', email_id=email.id) }}" class="d-inline">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Delete Email" onclick="return confirm('Permanently remove this quarantined email?');">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-5 text-center text-muted">
+            <i class="bi bi-shield-check text-success fs-1 d-block mb-2"></i>
+            <h5>Quarantine is Empty</h5>
+            <p class="small mb-0">No quarantined emails found. All incoming communications are within safe threshold parameters.</p>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

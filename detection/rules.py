@@ -92,6 +92,13 @@ def check_blocklist(sender_domain, body, known_bad_domains=None, custom_blocked=
     findings = []
     score = 0
 
+    if known_bad_domains is None:
+        try:
+            from config import Config
+            known_bad_domains = getattr(Config, "KNOWN_BAD_DOMAINS", [])
+        except Exception:
+            known_bad_domains = []
+
     blocked_targets = set()
     if known_bad_domains:
         for d in known_bad_domains:
@@ -198,23 +205,41 @@ def check_typosquatting(domain):
     """
     Check 2: Typosquatting / Lookalike Domain Detection
     Detects common character substitutions (e.g. 0 for o, 1 for l, rn for m)
-    aimed at masquerading as legitimate high-profile domains.
+    aimed at masquerading as legitimate high-profile domains or brands.
     """
     if not domain:
         return {"name": "Typosquatting", "score": 0, "message": "No domain to check for typosquatting"}
 
-    normalized = domain
+    clean_d = domain.strip().lower()
+    clean_base = get_base_domain(clean_d)
+
+    normalized = clean_d
     normalized = normalized.replace("0", "o")
     normalized = normalized.replace("1", "l")
     normalized = normalized.replace("3", "e")
     normalized = normalized.replace("rn", "m")
     normalized = normalized.replace("vv", "w")
+    norm_base = get_base_domain(normalized)
 
-    if domain not in TRUSTED_DOMAINS and normalized in TRUSTED_DOMAINS:
+    # Check against trusted domains or known brands
+    is_typo = False
+    matched_target = None
+    if clean_d not in TRUSTED_DOMAINS and (normalized in TRUSTED_DOMAINS or norm_base in TRUSTED_DOMAINS):
+        is_typo = True
+        matched_target = normalized
+    else:
+        # Check if contains a typosquatted known brand (e.g., 'micr0soft' -> 'microsoft')
+        for brand in KNOWN_BRANDS:
+            if brand not in clean_d and brand in normalized:
+                is_typo = True
+                matched_target = brand
+                break
+
+    if is_typo:
         return {
             "name": "Typosquatting",
             "score": 40,
-            "message": f"Suspicious domain '{domain}' looks like '{normalized}' — possible typosquatting detected"
+            "message": f"Suspicious domain '{domain}' resembles trusted target '{matched_target}' — possible typosquatting detected"
         }
     return {
         "name": "Typosquatting",
