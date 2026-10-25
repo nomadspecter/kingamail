@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Foundation Overview — {{ system_name }}{% endblock %}
+{% block title %}System Overview — {{ system_name }}{% endblock %}
 
 {% block content %}
 <div class="row mb-4">
@@ -12,7 +12,7 @@
                         <i class="bi bi-shield-lock-fill text-primary me-2"></i>{{ system_name }}
                     </h2>
                     <p class="text-muted mb-0">
-                        Intelligent Corporate Email Security & Awareness System — <strong>Phase 1: Foundation</strong>
+                        Intelligent Corporate Email Security & Awareness System — <strong class="text-success"><i class="bi bi-check-circle-fill me-1"></i>All Phases 1–6 Fully Deployed & Active</strong>
                     </p>
                 </div>
                 <div class="d-flex gap-2">
@@ -194,7 +194,7 @@
                 </div>
             </div>
             <div class="card-footer bg-light small text-muted">
-                Available in <code>models.py</code> and raw SQL export in <code>schema.sql</code>.
+                Defined in <code>models.py</code> and managed via Flask-Migrate / Alembic migrations.
             </div>
         </div>
     </div>
@@ -204,76 +204,79 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow-sm">
-            <div class="card-header bg-white py-3 border-bottom">
+            <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0 fw-bold">
-                    <i class="bi bi-diagram-3-fill text-info me-2"></i>Implementation Roadmap
+                    <i class="bi bi-diagram-3-fill text-primary me-2"></i>Implementation Roadmap Status
                 </h5>
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
+                    <i class="bi bi-check-all me-1"></i> 100% Implemented (Phases 1–6 Live)
+                </span>
             </div>
             <div class="card-body">
                 <div class="row g-3">
                     <div class="col-md-4">
-                        <div class="p-3 border rounded bg-success-subtle text-success-emphasis border-success-subtle">
+                        <div class="p-3 border rounded bg-success-subtle text-success-emphasis border-success-subtle h-100">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <strong class="fs-6">Phase 1: Foundation</strong>
                                 <span class="badge bg-success">COMPLETED</span>
                             </div>
                             <p class="small mb-0">
-                                Config, database models, Supabase schema SQL, seed data, detection modularization, and clean factory architecture.
+                                Supabase PostgreSQL data layer, Alembic migrations, 14 SQLAlchemy models, seed data, and clean application factory architecture.
                             </p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="p-3 border rounded bg-light">
+                        <div class="p-3 border rounded bg-success-subtle text-success-emphasis border-success-subtle h-100">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <strong class="fs-6">Phase 2: Authentication & RBAC</strong>
-                                <span class="badge bg-secondary">NEXT</span>
+                                <span class="badge bg-success">COMPLETED</span>
                             </div>
-                            <p class="small text-muted mb-0">
-                                2FA one-time code, 15-minute inactivity session timeout, password hashing, role checks, and login audit logs.
+                            <p class="small mb-0">
+                                2FA one-time code (hashed, 5-min expiry), 15-minute inactivity session timeout, PBKDF2/scrypt password hashing, 3-tier RBAC, and login audit logs.
                             </p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="p-3 border rounded bg-light">
+                        <div class="p-3 border rounded bg-success-subtle text-success-emphasis border-success-subtle h-100">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <strong class="fs-6">Phase 3: Threat Detection</strong>
-                                <span class="badge bg-secondary">UPCOMING</span>
+                                <span class="badge bg-success">COMPLETED</span>
                             </div>
-                            <p class="small text-muted mb-0">
-                                11 heuristic rules, employee inbox & quarantine views, on-demand raw text email scanner with indicator breakdown.
+                            <p class="small mb-0">
+                                12 offline Kenyan heuristic rules, employee inbox & quarantine views, on-demand raw text email scanner with indicator breakdown.
                             </p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="p-3 border rounded bg-light">
+                        <div class="p-3 border rounded bg-success-subtle text-success-emphasis border-success-subtle h-100">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <strong class="fs-6">Phase 4: Incident Response</strong>
-                                <span class="badge bg-secondary">UPCOMING</span>
+                                <span class="badge bg-success">COMPLETED</span>
                             </div>
-                            <p class="small text-muted mb-0">
-                                'Report Phishing' button, admin triage workflow, block sender, flag compromised victim accounts, and alert staff.
+                            <p class="small mb-0">
+                                'Report Phishing' button, SOC triage queue, sender blocklist, victim account containment, incident dossiers, and threat broadcast alerts.
                             </p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="p-3 border rounded bg-light">
+                        <div class="p-3 border rounded bg-success-subtle text-success-emphasis border-success-subtle h-100">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <strong class="fs-6">Phase 5: Phishing Awareness</strong>
-                                <span class="badge bg-secondary">UPCOMING</span>
+                                <span class="badge bg-success">COMPLETED</span>
                             </div>
-                            <p class="small text-muted mb-0">
-                                Tracked simulated campaigns, zero-credential-capture training landing pages, quizzes, and employee readiness scoring.
+                            <p class="small mb-0">
+                                Tracked simulated campaigns with Kenyan lures, zero-credential-capture training landing pages, 15 database quizzes, and employee readiness scoring.
                             </p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="p-3 border rounded bg-light">
+                        <div class="p-3 border rounded bg-success-subtle text-success-emphasis border-success-subtle h-100">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <strong class="fs-6">Phase 6: Dashboards & CSV Export</strong>
-                                <span class="badge bg-secondary">UPCOMING</span>
+                                <span class="badge bg-success">COMPLETED</span>
                             </div>
-                            <p class="small text-muted mb-0">
-                                SOC executive dashboards, manager team analytics, high-risk user detection, and CSV audit reports.
+                            <p class="small mb-0">
+                                SOC executive dashboards (verdicts doughnut, top rules bar, weekly line), manager team analytics, high-risk user detection, and CSV audit reports.
                             </p>
                         </div>
                     </div>
