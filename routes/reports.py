@@ -48,11 +48,29 @@ def submit_report(email_id):
         admin_verdict="pending"
     )
     email_obj.is_reported = True
-
     db.session.add(new_report)
-    db.session.commit()
 
-    flash(f"Thank you! Email '{email_obj.subject}' has been reported to the Security Team for investigation.", "success")
+    # Check if this email was part of an authorized simulation campaign
+    import re
+    from models import SimResult
+    sim_match = None
+    if "/simulation/track/" in email_obj.body:
+        m = re.search(r'/simulation/track/([A-Za-z0-9_-]+)', email_obj.body)
+        if m:
+            sim_match = SimResult.query.filter_by(tracking_token=m.group(1)).first()
+
+    if not sim_match and email_obj.subject.startswith("[Simulated]"):
+        sim_match = SimResult.query.filter_by(user_id=user_id, is_reported=False).order_by(SimResult.sent_at.desc()).first()
+
+    if sim_match:
+        sim_match.is_reported = True
+        sim_match.reported_at = datetime.utcnow()
+        new_report.admin_verdict = "safe"  # Marked safe/simulation
+        flash("🎯 Outstanding vigilance! You successfully identified and reported an authorized corporate phishing simulation!", "success")
+    else:
+        flash(f"Thank you! Email '{email_obj.subject}' has been reported to the Security Team for investigation.", "success")
+
+    db.session.commit()
     return redirect(request.referrer or url_for("emails.inbox"))
 
 

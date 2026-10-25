@@ -1,27 +1,68 @@
 {% extends "base.html" %}
 
-{% block title %}Awareness Training — {{ system_name }}{% endblock %}
+{% block title %}Awareness Training Modules — {{ system_name }}{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
-        <h3 class="fw-bold mb-1"><i class="bi bi-mortarboard-fill text-success me-2"></i>Security Awareness Training</h3>
-        <p class="text-muted small mb-0">Interactive security lessons, social engineering defense, and knowledge quizzes</p>
+        <h3 class="fw-bold mb-1"><i class="bi bi-mortarboard-fill text-primary me-2"></i>Security Awareness Training</h3>
+        <p class="text-muted small mb-0">Interactive corporate lessons and graded quizzes designed to build threat identification habits</p>
     </div>
-    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">Phase 5 Integration</span>
+    <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
+            Completed: {{ completed_count }} / {{ total_modules }} Courses
+        </span>
+    </div>
 </div>
 
-<div class="card shadow-sm">
-    <div class="card-body p-4 text-center">
-        <i class="bi bi-mortarboard fs-1 text-success d-block mb-3"></i>
-        <h5>Interactive Training & Quiz System</h5>
-        <p class="text-muted small mb-3">
-            In Phase 5, employees will complete interactive phishing modules and take graded quizzes
-            with scores saved in <code>quiz_result</code>.
-        </p>
-        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left me-1"></i> Return to Foundation Overview
-        </a>
+<!-- Modules Grid -->
+<div class="row g-4">
+    {% for item in modules_data %}
+    {% set mod = item.module %}
+    {% set res = item.result %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm border-0 h-100 d-flex flex-column">
+            <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+                <span class="badge bg-secondary-subtle text-secondary">{{ mod.category }}</span>
+                <span class="badge {% if mod.difficulty == 'Beginner' %}bg-success-subtle text-success{% else %}bg-warning-subtle text-warning-emphasis{% endif %}">
+                    {{ mod.difficulty }}
+                </span>
+            </div>
+            <div class="card-body p-4 flex-grow-1">
+                <h5 class="fw-bold text-dark mb-2">{{ mod.title }}</h5>
+                <p class="text-muted small mb-3">{{ mod.description }}</p>
+
+                <div class="d-flex align-items-center gap-3 small text-muted mb-3">
+                    <span><i class="bi bi-clock me-1"></i>~{{ mod.estimated_minutes }} mins</span>
+                    <span><i class="bi bi-question-circle me-1"></i>{{ item.question_count }} Questions</span>
+                </div>
+
+                <div class="p-3 rounded bg-light border small">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold text-muted">Assessment Status:</span>
+                        {% if res %}
+                            {% if res.passed %}
+                                <span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i> {{ res.score }}% Passed</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark"><i class="bi bi-exclamation-circle me-1"></i> {{ res.score }}% (Retake)</span>
+                            {% endif %}
+                        {% else %}
+                            <span class="badge bg-secondary">Not Started</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0 p-3 pt-0">
+                <a href="{{ url_for('training.view_module', module_id=mod.id) }}" class="btn btn-outline-primary w-100 btn-sm">
+                    {% if res and res.passed %}
+                        <i class="bi bi-arrow-repeat me-1"></i> Review Course & Retake Quiz
+                    {% else %}
+                        <i class="bi bi-play-circle me-1"></i> Start Lesson & Take Quiz
+                    {% endif %}
+                </a>
+            </div>
+        </div>
     </div>
+    {% endfor %}
 </div>
 {% endblock %}

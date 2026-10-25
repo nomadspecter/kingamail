@@ -236,8 +236,10 @@ def run_seed():
                 email_obj = Email(**e_data)
                 db.session.add(email_obj)
 
-        # ── 5. SEED TRAINING MODULES ───────────────────────────────
-        print("📚 Seeding cybersecurity awareness training modules...")
+        # ── 5. SEED TRAINING MODULES & QUIZ QUESTIONS ──────────────
+        print("📚 Seeding cybersecurity awareness training modules & quiz questions...")
+        from models import QuizQuestion, QuizOption
+
         modules_data = [
             {
                 "title": "Recognizing Social Engineering & Artificial Urgency",
@@ -247,10 +249,62 @@ def run_seed():
                 "estimated_minutes": 10,
                 "content": (
                     "### The Psychology of Urgency\n\n"
-                    "Attackers often manipulate emotions such as fear, curiosity, or greed. Phrases like 'Account Suspended in 24 Hours' "
+                    "Attackers often manipulate emotions such as fear, curiosity, or panic. Phrases like 'Account Suspended in 24 Hours' "
                     "or 'Action Required Immediately' are designed to bypass rational skepticism. Always pause and independently "
                     "verify communications through official enterprise channels."
-                )
+                ),
+                "questions": [
+                    {
+                        "text": "What is the primary objective of artificial urgency in phishing emails?",
+                        "explanation": "Attackers manufacture artificial time pressure to cause victims to act impulsively without verifying authenticity.",
+                        "options": [
+                            ("To help recipients complete their tasks ahead of company deadlines.", False),
+                            ("To trigger panic and bypass the recipient's critical skepticism.", True),
+                            ("To comply with enterprise security auditing protocols.", False),
+                            ("To test server network bandwidth under heavy load.", False)
+                        ]
+                    },
+                    {
+                        "text": "An email claims your payroll direct deposit failed and provides a link to 're-enter your bank account immediately'. What is the safest response?",
+                        "explanation": "Always verify payroll or banking requests through verified, out-of-band channels like the corporate intranet or direct phone calls.",
+                        "options": [
+                            ("Click the link and quickly submit your bank credentials to avoid delay.", False),
+                            ("Forward the email to all department coworkers to warn them.", False),
+                            ("Do not click any link; navigate directly to the company intranet or contact HR via phone.", True),
+                            ("Reply to the email with your updated bank routing number.", False)
+                        ]
+                    },
+                    {
+                        "text": "Which of the following phrases is a classic indicator of emotional manipulation in phishing?",
+                        "explanation": "Threats of immediate legal action or account termination are common psychological coercion tactics used in phishing attacks.",
+                        "options": [
+                            ("Please find the quarterly team meeting minutes attached for review.", False),
+                            ("URGENT: Legal action will be taken if you do not confirm your credentials within 2 hours.", True),
+                            ("The company cafeteria menu has been updated for this week.", False),
+                            ("Reminder: Holiday office closure schedule is posted on the bulletin board.", False)
+                        ]
+                    },
+                    {
+                        "text": "Why do attackers often instruct victims to 'keep this request confidential and do not inform anyone'?",
+                        "explanation": "Isolation prevents the victim from double-checking with IT security or managers, making the fraud harder to detect before completion.",
+                        "options": [
+                            ("To maintain trade secrecy under standard nondisclosure agreements.", False),
+                            ("To prevent the victim from consulting IT or colleagues who might identify the scam.", True),
+                            ("To minimize internal network traffic on mail servers.", False),
+                            ("Because executive bonuses must remain private by law.", False)
+                        ]
+                    },
+                    {
+                        "text": "If an email appears to come from an internal colleague but creates intense urgency and asks for sensitive data, what should you inspect first?",
+                        "explanation": "Display names are trivial to spoof. Inspecting the actual header address and verifying via a secondary communication channel is essential.",
+                        "options": [
+                            ("Inspect the font family and color scheme of the text.", False),
+                            ("Check the full email address, reply-to header, and verify with the sender in person or by phone.", True),
+                            ("Assume it is legitimate if the colleague's name is spelled correctly.", False),
+                            ("Open all attachments in full screen to check for watermarks.", False)
+                        ]
+                    }
+                ]
             },
             {
                 "title": "Spear Phishing & Executive Impersonation (CEO Fraud)",
@@ -262,15 +316,157 @@ def run_seed():
                     "### Defending Against Executive Spoofing\n\n"
                     "Business Email Compromise occurs when an attacker impersonates a C-level executive requesting secret gift cards, "
                     "urgent supplier payments, or payroll records. Never execute out-of-band wire transfers without voice confirmation."
-                )
+                ),
+                "questions": [
+                    {
+                        "text": "What is Business Email Compromise (BEC)?",
+                        "explanation": "BEC specifically involves highly targeted impersonation of high-level personnel to redirect funds or steal sensitive data.",
+                        "options": [
+                            ("A distributed denial-of-service attack on email exchange servers.", False),
+                            ("A targeted scam where attackers impersonate corporate executives or vendors to authorize fraudulent payments.", True),
+                            ("An automated spam bot that sends mass promotional newsletters.", False),
+                            ("A hardware failure occurring on enterprise email storage arrays.", False)
+                        ]
+                    },
+                    {
+                        "text": "You receive an email from the CEO asking you to urgently purchase $2,000 in gift cards for an undisclosed client meeting. What should you do?",
+                        "explanation": "Gift card purchase requests are almost always fraudulent because gift card funds are untraceable and cannot be refunded.",
+                        "options": [
+                            ("Buy the gift cards immediately using your company card and email the activation codes.", False),
+                            ("Recognize this as a classic CEO fraud pattern and report it to IT Security.", True),
+                            ("Ask the sender to reimburse you in cash upon delivery.", False),
+                            ("Post the codes on the company Slack channel.", False)
+                        ]
+                    },
+                    {
+                        "text": "What makes spear phishing significantly more dangerous than generic bulk phishing?",
+                        "explanation": "Spear phishing uses research on the victim's role, projects, and colleagues to construct convincing, highly relevant lures.",
+                        "options": [
+                            ("It always carries encrypted malware binaries.", False),
+                            ("It uses tailored, personalized information about the target gathered from public sources.", True),
+                            ("It bypasses all corporate network firewalls automatically.", False),
+                            ("It can only be sent from government-registered servers.", False)
+                        ]
+                    },
+                    {
+                        "text": "An email claims to be from the CFO and demands an immediate wire transfer to a new vendor bank account. What corporate policy applies?",
+                        "explanation": "Wire transfers must always require out-of-band verification and dual-control approval to prevent unauthorized financial diversion.",
+                        "options": [
+                            ("Transfer up to 50% of the funds if the deadline is under 1 hour.", False),
+                            ("Execute dual-authorization and verify the account number via a pre-established voice phone number.", True),
+                            ("Reply to the email asking the sender to confirm the bank name.", False),
+                            ("Approve the payment if the vendor's invoice looks professionally designed.", False)
+                        ]
+                    },
+                    {
+                        "text": "Why do executive impersonators often claim they are 'in a board meeting and cannot take phone calls'?",
+                        "explanation": "Preempting voice verification forces the victim to rely solely on the attacker's email communications.",
+                        "options": [
+                            ("To comply with corporate conference room quiet policies.", False),
+                            ("To preemptively prevent the victim from calling them to verify the request.", True),
+                            ("Because email is legally required for financial authorizations.", False),
+                            ("To show that the executive is busy and productive.", False)
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Spotting Typosquatting & Malicious Hyperlinks",
+                "description": "Learn how lookalike domains, disguised links, and URL shorteners are weaponized to harvest credentials.",
+                "category": "Technical Defense",
+                "difficulty": "Intermediate",
+                "estimated_minutes": 12,
+                "content": (
+                    "### Analyzing Links & Domains\n\n"
+                    "Attackers register lookalike domains with subtle typos (e.g. micr0soft.com) or deceptive subdomains "
+                    "(e.g. login.microsoft.com.attacker.xyz). Always inspect the root domain before entering credentials."
+                ),
+                "questions": [
+                    {
+                        "text": "What is typosquatting?",
+                        "explanation": "Typosquatting exploits human visual oversight by using lookalike characters (e.g. 0 for o, rn for m) in domain names.",
+                        "options": [
+                            ("Typing too fast and causing spelling mistakes in internal corporate memos.", False),
+                            ("Registering lookalike domain names with subtle character swaps to deceive users into trusting a fake site.", True),
+                            ("Compressing email attachments into zip archives.", False),
+                            ("Using keyboard shortcuts to navigate web pages.", False)
+                        ]
+                    },
+                    {
+                        "text": "In the link 'http://login.microsoft.com.attacker-controlled.xyz/auth', what is the actual destination domain?",
+                        "explanation": "The destination domain is determined by the portion immediately preceding the top-level domain and first slash (attacker-controlled.xyz).",
+                        "options": [
+                            ("microsoft.com", False),
+                            ("login.microsoft.com", False),
+                            ("attacker-controlled.xyz", True),
+                            ("auth", False)
+                        ]
+                    },
+                    {
+                        "text": "What danger does a URL shortener (e.g., bit.ly, tinyurl.com) present in an email?",
+                        "explanation": "Shortened links obscure the final destination address, hiding malicious or typosquatted landing pages from visual inspection.",
+                        "options": [
+                            ("It causes the email to exceed attachment file size limits.", False),
+                            ("It conceals the true destination URL, preventing the user from inspecting the real target domain before clicking.", True),
+                            ("It automatically decrypts private corporate databases.", False),
+                            ("It turns off HTTPS encryption on the recipient's computer.", False)
+                        ]
+                    },
+                    {
+                        "text": "When an email display text reads 'https://mybank.com' but hovering reveals 'http://phish-secure.top', what has occurred?",
+                        "explanation": "Anchor text spoofing displays legitimate text while directing the browser's hyperlink to an attacker-controlled server.",
+                        "options": [
+                            ("The web browser has automatically upgraded the connection to a backup server.", False),
+                            ("The sender has used anchor text spoofing to disguise a malicious destination address.", True),
+                            ("A standard DNS load balancing switch has occurred.", False),
+                            ("The bank has updated its corporate top-level domain.", False)
+                        ]
+                    },
+                    {
+                        "text": "Which Top-Level Domain (TLD) is recognized as corporate internal and trusted within our system?",
+                        "explanation": "corporate.local is the designated internal corporate domain recognized on our trusted whitelist with zero penalty score.",
+                        "options": [
+                            (".xyz", False),
+                            (".top", False),
+                            ("corporate.local", True),
+                            (".cf", False)
+                        ]
+                    }
+                ]
             }
         ]
 
         for m_data in modules_data:
-            existing_mod = TrainingModule.query.filter_by(title=m_data["title"]).first()
-            if not existing_mod:
+            questions_data = m_data.pop("questions", [])
+            mod = TrainingModule.query.filter_by(title=m_data["title"]).first()
+            if not mod:
                 mod = TrainingModule(**m_data)
                 db.session.add(mod)
+                db.session.flush()
+
+            # Seed 5 questions per module
+            for q_idx, q_data in enumerate(questions_data, 1):
+                existing_q = QuizQuestion.query.filter_by(
+                    module_id=mod.id,
+                    question_text=q_data["text"]
+                ).first()
+
+                if not existing_q:
+                    question = QuizQuestion(
+                        module_id=mod.id,
+                        question_text=q_data["text"],
+                        explanation=q_data["explanation"]
+                    )
+                    db.session.add(question)
+                    db.session.flush()
+
+                    for opt_text, is_corr in q_data["options"]:
+                        opt = QuizOption(
+                            question_id=question.id,
+                            option_text=opt_text,
+                            is_correct=is_corr
+                        )
+                        db.session.add(opt)
 
         # ── 6. SEED SAMPLE BLOCKED SENDER ──────────────────────────
         print("🚫 Seeding initial blocked senders...")

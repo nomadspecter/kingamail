@@ -4,29 +4,68 @@
 
 {% block content %}
 <div class="row justify-content-center py-4">
-    <div class="col-md-7">
-        <div class="card shadow-sm border-warning">
-            <div class="card-header bg-warning-subtle text-warning-emphasis py-3 text-center">
-                <i class="bi bi-shield-exclamation fs-1 d-block mb-2"></i>
-                <h4 class="mb-0 fw-bold">Whoops! That Was a Simulated Phishing Test</h4>
+    <div class="col-md-9 col-lg-8">
+        <div class="card shadow border-warning">
+            <!-- Warning Header -->
+            <div class="card-header bg-warning text-dark py-4 text-center">
+                <i class="bi bi-shield-exclamation display-3 d-block mb-2"></i>
+                <h2 class="fw-bold mb-1">Oops! You Clicked a Simulated Phishing Link</h2>
+                <p class="mb-0 fs-6">This was an authorized corporate awareness exercise. No harm was done.</p>
             </div>
-            <div class="card-body p-4">
-                <p class="lead text-center mb-4">
-                    Don't worry — your computer is secure, and no credentials were captured.
-                </p>
-                <div class="p-3 bg-light rounded mb-3">
-                    <h6 class="fw-bold mb-2"><i class="bi bi-eye-fill text-primary me-2"></i>What red flags were present?</h6>
-                    <ul class="small mb-0 ps-3">
-                        <li>The sender domain had deceptive typosquatting.</li>
-                        <li>Artificial urgency urged you to "act within 24 hours".</li>
-                        <li>A suspicious link pointed to an unverified destination.</li>
-                    </ul>
+
+            <div class="card-body p-4 p-md-5">
+                <!-- Privacy Guarantee Banner -->
+                <div class="alert alert-success border-success-subtle d-flex align-items-center gap-3 py-3 mb-4">
+                    <i class="bi bi-check-shield-fill fs-2 text-success"></i>
+                    <div>
+                        <div class="fw-bold text-success">Your Privacy is Protected</div>
+                        <div class="small text-muted">
+                            This security simulation recorded link engagement only. In accordance with enterprise privacy standards,
+                            <strong>no credentials, passwords, or keystrokes are ever captured or stored</strong>.
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center mt-4">
-                    <a href="{{ url_for('training.modules') }}" class="btn btn-primary">
-                        <i class="bi bi-mortarboard me-1"></i> Proceed to 5-Minute Micro-Lesson
-                    </a>
+
+                <h5 class="fw-bold text-dark mb-3">What Red Flags Were in That Email?</h5>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded border h-100">
+                            <div class="text-danger fw-bold mb-1"><i class="bi bi-clock-history me-1"></i> Artificial Urgency</div>
+                            <p class="small text-muted mb-0">Phrases like "Action Required in 24 Hours" rush you into acting before verifying authenticity.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded border h-100">
+                            <div class="text-danger fw-bold mb-1"><i class="bi bi-person-x me-1"></i> Generic Greeting</div>
+                            <p class="small text-muted mb-0">Impersonal salutations ("Dear Colleague") indicate mass automated distribution.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded border h-100">
+                            <div class="text-danger fw-bold mb-1"><i class="bi bi-link-45deg me-1"></i> Disguised Links</div>
+                            <p class="small text-muted mb-0">Always hover over links to inspect the true destination domain before clicking.</p>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="p-4 bg-primary-subtle rounded border border-primary-subtle text-center">
+                    <h5 class="fw-bold text-primary mb-2">Turn This Into a Learning Opportunity</h5>
+                    <p class="text-muted small mb-3">
+                        Take 5 minutes to complete our interactive training modules and learn how to identify sophisticated spear phishing attacks.
+                    </p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="{{ url_for('training.modules') }}" class="btn btn-primary">
+                            <i class="bi bi-mortarboard me-1"></i> Start Awareness Training
+                        </a>
+                        <a href="{{ url_for('emails.inbox') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-inbox me-1"></i> Return to Mailbox
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-light py-2 text-center text-muted small">
+                Authorized by {{ system_name }} Enterprise Security & Awareness Department
             </div>
         </div>
     </div>

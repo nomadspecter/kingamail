@@ -346,9 +346,48 @@ class TrainingModule(db.Model):
 
     # Relationships
     quiz_results = db.relationship("QuizResult", backref="module", lazy=True)
+    questions = db.relationship("QuizQuestion", backref="module", lazy=True, cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<TrainingModule #{self.id} '{self.title}'>"
+
+
+class QuizQuestion(db.Model):
+    """
+    QuizQuestion Model:
+    Assessment question associated with a training module.
+    Explains the cybersecurity rationale for the correct answer.
+    """
+    __tablename__ = "quiz_question"
+
+    id = db.Column(db.Integer, primary_key=True)
+    module_id = db.Column(db.Integer, db.ForeignKey("training_module.id"), nullable=False, index=True)
+    question_text = db.Column(db.Text, nullable=False)
+    explanation = db.Column(db.Text, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    # Relationships
+    options = db.relationship("QuizOption", backref="question", lazy=True, cascade="all, delete-orphan")
+
+    def __repr__(self):
+        return f"<QuizQuestion #{self.id} Mod:{self.module_id}>"
+
+
+class QuizOption(db.Model):
+    """
+    QuizOption Model:
+    Multiple-choice option choices for a QuizQuestion.
+    """
+    __tablename__ = "quiz_option"
+
+    id = db.Column(db.Integer, primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey("quiz_question.id"), nullable=False, index=True)
+    option_text = db.Column(db.Text, nullable=False)
+    is_correct = db.Column(db.Boolean, default=False, nullable=False)
+
+    def __repr__(self):
+        return f"<QuizOption #{self.id} Correct:{self.is_correct}>"
+
 
 
 class QuizResult(db.Model):
