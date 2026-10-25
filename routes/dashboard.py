@@ -331,7 +331,7 @@ def export_csv():
 
     output.seek(0)
     timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-    filename = f"phishshield_awareness_report_{timestamp}.csv"
+    filename = f"kingamail_awareness_report_{timestamp}.csv"
 
     return Response(
         output.getvalue(),
@@ -345,6 +345,6 @@ def health():
     """Health check endpoint returning system status in JSON."""
     return jsonify({
         "status": "healthy",
-        "system_name": current_app.config.get("SYSTEM_NAME", "PhishShield"),
+        "system_name": current_app.config.get("SYSTEM_NAME", "KingaMail Corporate Shield"),
         "version": "1.0.0"
     })

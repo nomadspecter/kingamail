@@ -1,5 +1,5 @@
 # System Architecture & Phase Implementation Notes
-**System Name:** PhishShield (Configurable via `SYSTEM_NAME` in `config.py`)  
+**System Name:** KingaMail Corporate Shield (Configurable via `SYSTEM_NAME` in `config.py`)  
 **Stack:** Python Flask, SQLAlchemy ORM, Supabase Cloud PostgreSQL, Jinja2, Bootstrap 5.  
 **Philosophy:** 100% Rule-based heuristic email threat detection (zero machine learning), parameterized SQL queries only, CSRF protection on state-changing requests, RBAC enforcement on all routes, secure session handling.
 

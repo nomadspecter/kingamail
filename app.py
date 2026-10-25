@@ -62,7 +62,7 @@ def create_app(config_name=None):
         if "user_id" in session:
             current_user = User.query.get(session["user_id"])
         return {
-            "system_name": app.config.get("SYSTEM_NAME", "PhishShield"),
+            "system_name": app.config.get("SYSTEM_NAME", "KingaMail Corporate Shield"),
             "current_user": current_user,
             "csrf_token": generate_csrf_token
         }

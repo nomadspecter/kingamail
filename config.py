@@ -91,17 +91,17 @@ class Config:
     """Base configuration class containing shared settings."""
 
     # System branding - used throughout page titles, headers, and UI
-    SYSTEM_NAME = os.getenv("SYSTEM_NAME", "PhishShield")
+    SYSTEM_NAME = os.getenv("SYSTEM_NAME", "KingaMail Corporate Shield")
 
     # Security: Secret key for session signing and CSRF tokens
-    SECRET_KEY = os.getenv("SECRET_KEY", "phishshield-default-dev-secret-change-in-prod-2026")
+    SECRET_KEY = os.getenv("SECRET_KEY", "kingamail-default-dev-secret-change-in-prod-2026")
 
     # Single DATABASE_URL read from .env - NO SQLite fallback
     raw_db_url = os.getenv("DATABASE_URL", "").strip()
     if not raw_db_url:
         raise RuntimeError(
             "FATAL CONFIG ERROR: DATABASE_URL environment variable is missing or empty in .env.\n"
-            "PhishShield requires a valid Supabase Cloud PostgreSQL connection string to start.\n"
+            "KingaMail requires a valid Supabase Cloud PostgreSQL connection string to start.\n"
             "Example format (Supabase Transaction Pooler, Port 6543):\n"
             "  DATABASE_URL=postgresql://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres?sslmode=require"
         )

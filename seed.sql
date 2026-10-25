@@ -1,5 +1,5 @@
 -- ==============================================================================
--- PhishShield - Seed Data for PostgreSQL / Supabase
+-- KingaMail Corporate Shield - Seed Data for PostgreSQL / Supabase
 -- ==============================================================================
 
 -- 1. SEED ROLES

@@ -51,7 +51,7 @@ def run_tests():
         # Unauthenticated -> Public Overview (200)
         resp = client.get("/")
         assert resp.status_code == 200
-        assert b"Intelligent Email Security" in resp.data or b"PhishShield" in resp.data or b"KingaMail" in resp.data
+        assert b"Intelligent Email Security" in resp.data or b"KingaMail" in resp.data
 
         # Authenticated as Employee -> Redirects to /emails/inbox
         with client.session_transaction() as sess:
