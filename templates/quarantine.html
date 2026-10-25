@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Email Quarantine — {{ system_name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold mb-1"><i class="bi bi-shield-x text-danger me-2"></i>Quarantined Messages</h3>
+        <p class="text-muted small mb-0">High-risk emails isolated from employee inboxes</p>
+    </div>
+    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2">Phase 3 Integration</span>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-4 text-center">
+        <i class="bi bi-shield-slash fs-1 text-danger d-block mb-3"></i>
+        <h5>Quarantine Isolation Module</h5>
+        <p class="text-muted small mb-3">
+            In Phase 3, emails flagged with risk score > 70 are quarantined here for security team review.
+        </p>
+        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Return to Foundation Overview
+        </a>
+    </div>
+</div>
+{% endblock %}

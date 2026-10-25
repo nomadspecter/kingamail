@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block title %}Foundation Overview — {{ system_name }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="p-4 bg-white rounded-3 border shadow-sm">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div>
+                    <h2 class="h3 fw-bold mb-1">
+                        <i class="bi bi-shield-lock-fill text-primary me-2"></i>{{ system_name }}
+                    </h2>
+                    <p class="text-muted mb-0">
+                        Intelligent Corporate Email Security & Awareness System — <strong>Phase 1: Foundation</strong>
+                    </p>
+                </div>
+                <div class="d-flex gap-2">
+                    <span class="badge bg-success py-2 px-3 fs-6">
+                        <i class="bi bi-database-check me-1"></i> {{ db_status }}
+                    </span>
+                    <a href="{{ url_for('dashboard.health') }}" target="_blank" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-code-slash me-1"></i> /health JSON
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Foundation Database Metrics -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3 col-sm-6">
+        <div class="card p-3 stat-card stat-green">
+            <div class="text-muted small text-uppercase fw-bold">Roles</div>
+            <div class="stat-value text-success mt-2">{{ stats.roles }}</div>
+            <div class="small text-muted mt-1">Employee, IT Admin, Manager</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card p-3 stat-card">
+            <div class="text-muted small text-uppercase fw-bold">Departments</div>
+            <div class="stat-value text-primary mt-2">{{ stats.departments }}</div>
+            <div class="small text-muted mt-1">IT, Finance, HR, Operations</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card p-3 stat-card stat-purple">
+            <div class="text-muted small text-uppercase fw-bold">Seeded Users</div>
+            <div class="stat-value text-purple mt-2">{{ stats.users }}</div>
+            <div class="small text-muted mt-1">Active & Compromised demo accounts</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card p-3 stat-card stat-amber">
+            <div class="text-muted small text-uppercase fw-bold">Sample Emails</div>
+            <div class="stat-value text-warning mt-2">{{ stats.emails }}</div>
+            <div class="small text-muted mt-1">Safe, Suspicious & Quarantined</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Demo Logins Card -->
+    <div class="col-lg-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-white py-3 border-bottom">
+                <h5 class="card-title mb-0 fw-bold">
+                    <i class="bi bi-key-fill text-warning me-2"></i>Demo Accounts (One Per Role)
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Role</th>
+                                <th>Demo Email</th>
+                                <th>Password</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge badge-role-employee px-2 py-1">Employee</span></td>
+                                <td><code>employee@corporate.local</code></td>
+                                <td><span class="code-pill">Employee123!</span></td>
+                                <td><span class="badge bg-success-subtle text-success">active</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-role-admin px-2 py-1">IT Admin</span></td>
+                                <td><code>admin@corporate.local</code></td>
+                                <td><span class="code-pill">Admin123!</span></td>
+                                <td><span class="badge bg-success-subtle text-success">active</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-role-manager px-2 py-1">Manager</span></td>
+                                <td><code>manager@corporate.local</code></td>
+                                <td><span class="code-pill">Manager123!</span></td>
+                                <td><span class="badge bg-success-subtle text-success">active</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-role-employee px-2 py-1">Employee</span></td>
+                                <td><code>bob.miller@corporate.local</code></td>
+                                <td><span class="code-pill">Employee123!</span></td>
+                                <td><span class="badge bg-danger-subtle text-danger">compromised</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-light small text-muted">
+                <i class="bi bi-shield-check text-success me-1"></i>
+                All passwords securely hashed using PBKDF2 / SHA-256 via <code>werkzeug.security</code>.
+            </div>
+        </div>
+    </div>
+
+    <!-- Verified Database Schema (14 Tables) -->
+    <div class="col-lg-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0 fw-bold">
+                    <i class="bi bi-table text-primary me-2"></i>14 Database Tables Verified
+                </h5>
+                <span class="badge bg-primary-subtle text-primary">SQLAlchemy ORM + Postgres</span>
+            </div>
+            <div class="card-body">
+                <div class="row g-2">
+                    <div class="col-6">
+                        <ul class="list-group list-group-flush small">
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>department</code></span>
+                                <span class="badge bg-light text-muted">Org units</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>role</code></span>
+                                <span class="badge bg-light text-muted">RBAC levels</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>user</code></span>
+                                <span class="badge bg-light text-muted">Auth & status</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>login_log</code></span>
+                                <span class="badge bg-light text-muted">Security audit</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>email</code></span>
+                                <span class="badge bg-light text-muted">Inbox/Quarantine</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>blocked_sender</code></span>
+                                <span class="badge bg-light text-muted">Blacklist</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>report</code></span>
+                                <span class="badge bg-light text-muted">Phishing reports</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul class="list-group list-group-flush small">
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>incident</code></span>
+                                <span class="badge bg-light text-muted">Response cases</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>campaign</code></span>
+                                <span class="badge bg-light text-muted">Simulations</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>sim_result</code></span>
+                                <span class="badge bg-light text-muted">Clicks & reports</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>training_module</code></span>
+                                <span class="badge bg-light text-muted">Lessons</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>quiz_result</code></span>
+                                <span class="badge bg-light text-muted">Test scores</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>alert</code></span>
+                                <span class="badge bg-light text-muted">Threat broadcasts</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+                                <span><i class="bi bi-check2 text-success me-1"></i><code>alert_recipient</code></span>
+                                <span class="badge bg-light text-muted">Read tracking</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-light small text-muted">
+                Available in <code>models.py</code> and raw SQL export in <code>schema.sql</code>.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Architecture & Phase Roadmap -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white py-3 border-bottom">
+                <h5 class="card-title mb-0 fw-bold">
+                    <i class="bi bi-diagram-3-fill text-info me-2"></i>Implementation Roadmap
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded bg-success-subtle text-success-emphasis border-success-subtle">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="fs-6">Phase 1: Foundation</strong>
+                                <span class="badge bg-success">COMPLETED</span>
+                            </div>
+                            <p class="small mb-0">
+                                Config, database models, Supabase schema SQL, seed data, detection modularization, and clean factory architecture.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded bg-light">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="fs-6">Phase 2: Authentication & RBAC</strong>
+                                <span class="badge bg-secondary">NEXT</span>
+                            </div>
+                            <p class="small text-muted mb-0">
+                                2FA one-time code, 15-minute inactivity session timeout, password hashing, role checks, and login audit logs.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded bg-light">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="fs-6">Phase 3: Threat Detection</strong>
+                                <span class="badge bg-secondary">UPCOMING</span>
+                            </div>
+                            <p class="small text-muted mb-0">
+                                11 heuristic rules, employee inbox & quarantine views, on-demand raw text email scanner with indicator breakdown.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded bg-light">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="fs-6">Phase 4: Incident Response</strong>
+                                <span class="badge bg-secondary">UPCOMING</span>
+                            </div>
+                            <p class="small text-muted mb-0">
+                                'Report Phishing' button, admin triage workflow, block sender, flag compromised victim accounts, and alert staff.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded bg-light">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="fs-6">Phase 5: Phishing Awareness</strong>
+                                <span class="badge bg-secondary">UPCOMING</span>
+                            </div>
+                            <p class="small text-muted mb-0">
+                                Tracked simulated campaigns, zero-credential-capture training landing pages, quizzes, and employee readiness scoring.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded bg-light">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="fs-6">Phase 6: Dashboards & CSV Export</strong>
+                                <span class="badge bg-secondary">UPCOMING</span>
+                            </div>
+                            <p class="small text-muted mb-0">
+                                SOC executive dashboards, manager team analytics, high-risk user detection, and CSV audit reports.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

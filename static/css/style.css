@@ -1,0 +1,100 @@
+/* ==============================================================================
+   PhishShield - Enterprise Security Theme
+   Modern, sleek cybersecurity corporate UI
+   ============================================================================== */
+
+:root {
+  --ps-primary: #0f172a;       /* Deep slate navy */
+  --ps-accent: #2563eb;        /* Vibrant cyber blue */
+  --ps-accent-hover: #1d4ed8;
+  --ps-shield: #10b981;        /* Security green */
+  --ps-shield-glow: rgba(16, 185, 129, 0.2);
+  --ps-danger: #ef4444;        /* Phishing danger red */
+  --ps-warning: #f59e0b;       /* Suspicious amber */
+  --ps-bg: #f8fafc;
+  --ps-card-bg: #ffffff;
+  --ps-border: #e2e8f0;
+  --ps-text: #1e293b;
+  --ps-text-muted: #64748b;
+}
+
+body {
+  background-color: var(--ps-bg);
+  color: var(--ps-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 1.25rem;
+}
+
+.brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  color: #10b981;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Cards */
+.card {
+  border: 1px solid var(--ps-border);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card {
+  border-left: 4px solid var(--ps-accent);
+}
+
+.stat-card.stat-green { border-left-color: #10b981; }
+.stat-card.stat-amber { border-left-color: #f59e0b; }
+.stat-card.stat-red { border-left-color: #ef4444; }
+.stat-card.stat-purple { border-left-color: #8b5cf6; }
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Badges */
+.badge-role-admin { background-color: #dc2626; color: #fff; }
+.badge-role-manager { background-color: #d97706; color: #fff; }
+.badge-role-employee { background-color: #2563eb; color: #fff; }
+
+.badge-verdict-safe { background-color: #dcfce7; color: #166534; }
+.badge-verdict-suspicious { background-color: #fef3c7; color: #92400e; }
+.badge-verdict-quarantine { background-color: #fee2e2; color: #991b1b; }
+
+/* Code / SQL pill */
+.code-pill {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85rem;
+  background-color: #f1f5f9;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  color: #0f172a;
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+  border-top: 1px solid var(--ps-border);
+  background-color: #ffffff;
+}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Email Threat Scanner — {{ system_name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold mb-1"><i class="bi bi-search text-primary me-2"></i>Email Threat Scanner</h3>
+        <p class="text-muted small mb-0">Inspect raw email text, RFC 822 headers, and evaluate against 11 detection rules</p>
+    </div>
+    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">Phase 3 Integration</span>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-4 text-center">
+        <i class="bi bi-cpu fs-1 text-primary d-block mb-3"></i>
+        <h5>On-Demand Email Threat Inspection Engine</h5>
+        <p class="text-muted small mb-3">
+            In Phase 3, you will be able to paste any raw email text or select an inbox item to inspect its
+            headers, embedded URLs, typosquatting indicators, psychological urgency, and VirusTotal reputation.
+        </p>
+        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Return to Foundation Overview
+        </a>
+    </div>
+</div>
+{% endblock %}

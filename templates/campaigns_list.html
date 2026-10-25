@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Simulations — {{ system_name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold mb-1"><i class="bi bi-send-check-fill text-primary me-2"></i>Phishing Awareness Campaigns</h3>
+        <p class="text-muted small mb-0">Controlled corporate phishing simulations to evaluate workforce susceptibility</p>
+    </div>
+    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">Phase 5 Integration</span>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-4 text-center">
+        <i class="bi bi-send-check fs-1 text-primary d-block mb-3"></i>
+        <h5>Simulation Campaign Manager</h5>
+        <p class="text-muted small mb-3">
+            In Phase 5, admins will schedule simulated phishing emails with tracking links
+            and measure employee click and report rates without collecting sensitive input.
+        </p>
+        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Return to Foundation Overview
+        </a>
+    </div>
+</div>
+{% endblock %}
