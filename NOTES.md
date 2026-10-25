@@ -99,3 +99,46 @@ Emails in the system are evaluated through the 12 heuristic checks in `detection
 In the web interface, the employee can safely inspect the email in the threat viewer, where dangerous links are rendered in sanitized text rather than executable hyperlinks. IT Administrators have elevated privileges: they can review all quarantined threats across the company and, if a message is deemed a false positive, release it back to the recipient's inbox.
 
 ---
+
+## Phase 4: Incident Response, SOC Triage & Threat Containment
+### 1. What Was Added
+- Employee Phishing Reporting: One-click submission from the mailbox creates a `Report` record (`admin_verdict='pending'`) and flags `email.is_reported = True`.
+- SOC Triage Queue (`/reports/`):
+  - Protected with `@role_required('IT Admin')`.
+  - Filterable triage view with status metric cards (Pending, Confirmed Phishing, Safe, Spam).
+  - Modal-based triage workflows allowing analysts to confirm attacks or dismiss false alarms.
+- Automated Enterprise Containment Workflow:
+  - If triaged as 'phishing':
+    1. Opens a formal Incident record (`INC-YYYY-XXXX`).
+    2. Blacklists the attacker address/domain in the `blocked_sender` database table.
+    3. Flags the victim employee account as `status='compromised'` and enforces `force_password_reset=True`.
+    4. Generates an immutable chronological audit trail in `incident.actions_log`.
+    5. Dispatches an enterprise `Alert` with `AlertRecipient` delivery records across all active employee mailboxes.
+  - If triaged as 'safe' or 'spam': Resolves the report directly without creating an incident.
+- Security Incidents Docket (`/incidents/` & `/incidents/view/<incident_id>`):
+  - Displays complete investigation records, affected account profiles, attacker indicators, and chronological action audit logs.
+  - Incident closing controller (`POST /incidents/close/<id>`) marking status as `resolved`, logging close timestamp and analyst post-mortem notes.
+- Security Advisories Portal (`/alerts/`):
+  - Workforce notification interface with unacknowledged warning counters.
+  - Interactive acknowledgment workflow (`POST /alerts/acknowledge/<id>`) recording read timestamps in `alert_recipient`.
+  - SOC manual emergency broadcast dispatch interface.
+
+### 2. Files Involved
+- `routes/reports.py`: Phishing submission and SOC triage controller.
+- `routes/incidents.py`: Incident registry, investigation docket, and closure controllers.
+- `routes/alerts.py`: Advisory broadcast and employee acknowledgment controllers.
+- `templates/reports_list.html`: SOC triage queue interface with confirmation modals.
+- `templates/incidents_list.html`: Enterprise security incidents dashboard.
+- `templates/incident_detail.html`: Incident investigation docket with chronological audit logs.
+- `templates/alerts_list.html`: Employee security advisory viewer with acknowledgment and admin broadcast forms.
+- `test_phase4.py`: Integration test suite validating incident response, containment, and alert delivery against Supabase PostgreSQL.
+
+### 3. How It Works (Student Explanation)
+When an employee notices a suspicious email and clicks "Report as Phishing", the message is queued in the SOC Triage portal. An IT Administrator reviews the email headers and body. If the administrator confirms it is genuine phishing, clicking "Confirm Phishing" executes an automated containment chain:
+1. An official incident number (e.g. `INC-2026-0001`) is generated.
+2. The attacker's sender address is added to the `blocked_sender` database table so future incoming emails from that attacker are automatically quarantined.
+3. The victim user account is immediately contained: their status is changed to `compromised` and `force_password_reset` is locked to True. As a result, the next time that user accesses the system, `login_required` confines them to the password reset page until new credentials are established.
+4. An emergency security advisory is created and delivered to every employee's alerts feed, warning the workforce about the active campaign.
+5. Every single one of these actions is logged with an immutable timestamp and analyst name in `actions_log`. Once containment is verified, the analyst enters resolution notes to close the incident docket.
+
+---

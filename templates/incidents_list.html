@@ -3,25 +3,130 @@
 {% block title %}Security Incidents — {{ system_name }}{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
-        <h3 class="fw-bold mb-1"><i class="bi bi-exclamation-octagon-fill text-danger me-2"></i>Security Incident Response</h3>
-        <p class="text-muted small mb-0">Active incident cases, compromised accounts, and containment actions</p>
+        <h3 class="fw-bold mb-1"><i class="bi bi-exclamation-octagon-fill text-danger me-2"></i>Security Incidents</h3>
+        <p class="text-muted small mb-0">Active enterprise containment, investigation tracking, and response auditing</p>
     </div>
-    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2">Phase 4 Integration</span>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('reports.list_reports') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-inbox-fill me-1"></i> Triage Queue
+        </a>
+    </div>
 </div>
 
-<div class="card shadow-sm">
-    <div class="card-body p-4 text-center">
-        <i class="bi bi-shield-exclamation fs-1 text-danger d-block mb-3"></i>
-        <h5>Incident Response Workflow Engine</h5>
-        <p class="text-muted small mb-3">
-            In Phase 4, confirmed attacks spawn tracked incidents that orchestrate sender blocking,
-            account compromise tagging, forced password resets, and enterprise alerts.
-        </p>
-        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left me-1"></i> Return to Foundation Overview
-        </a>
+<!-- Incident Metrics -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="card shadow-sm border-0 border-start border-danger border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">Open Incidents</div>
+                <div class="fs-4 fw-bold text-danger">{{ counts.open }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card shadow-sm border-0 border-start border-warning border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">In Progress</div>
+                <div class="fs-4 fw-bold text-warning">{{ counts.in_progress }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card shadow-sm border-0 border-start border-success border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">Resolved / Closed</div>
+                <div class="fs-4 fw-bold text-success">{{ counts.resolved }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card shadow-sm border-0 border-start border-primary border-4">
+            <div class="card-body py-3">
+                <div class="text-muted small fw-semibold">Total Logged</div>
+                <div class="fs-4 fw-bold text-primary">{{ counts.total }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Incidents Table -->
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+        <span class="fw-semibold text-dark"><i class="bi bi-shield-exclamation me-2"></i>Incident Registry</span>
+        <div class="btn-group btn-group-sm">
+            <a href="{{ url_for('incidents.list_incidents', status='all') }}" class="btn btn-outline-secondary {% if status_filter == 'all' %}active{% endif %}">All</a>
+            <a href="{{ url_for('incidents.list_incidents', status='open') }}" class="btn btn-outline-secondary {% if status_filter == 'open' %}active{% endif %}">Open</a>
+            <a href="{{ url_for('incidents.list_incidents', status='resolved') }}" class="btn btn-outline-secondary {% if status_filter == 'resolved' %}active{% endif %}">Resolved</a>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        {% if incidents %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light small text-muted text-uppercase">
+                    <tr>
+                        <th style="width: 140px;">Incident #</th>
+                        <th>Incident Title</th>
+                        <th style="width: 110px;">Severity</th>
+                        <th style="width: 120px;">Status</th>
+                        <th>Affected Victim</th>
+                        <th style="width: 160px;">Logged At</th>
+                        <th style="width: 130px;" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inc in incidents %}
+                    <tr>
+                        <td class="font-monospace fw-bold text-danger">{{ inc.incident_number }}</td>
+                        <td>
+                            <a href="{{ url_for('incidents.view_incident', incident_id=inc.id) }}" class="text-decoration-none text-dark fw-semibold">
+                                {{ inc.title }}
+                            </a>
+                        </td>
+                        <td>
+                            <span class="badge {% if inc.severity == 'critical' %}bg-dark{% elif inc.severity == 'high' %}bg-danger{% else %}bg-warning text-dark{% endif %} text-uppercase">
+                                {{ inc.severity }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if inc.status == 'open' %}
+                                <span class="badge bg-danger"><i class="bi bi-record-circle me-1"></i> Open</span>
+                            {% elif inc.status == 'in_progress' %}
+                                <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split me-1"></i> Investigating</span>
+                            {% else %}
+                                <span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i> Resolved</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if inc.affected_user %}
+                                <div class="fw-semibold">{{ inc.affected_user.full_name }}</div>
+                                <div class="small text-muted">{{ inc.affected_user.email }}</div>
+                            {% else %}
+                                <span class="text-muted small">Enterprise Campaign</span>
+                            {% endif %}
+                        </td>
+                        <td class="small text-muted">
+                            {{ inc.created_at.strftime('%b %d, %Y %H:%M') }}
+                        </td>
+                        <td class="text-end">
+                            <a href="{{ url_for('incidents.view_incident', incident_id=inc.id) }}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-folder2-open me-1"></i> Docket
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-5 text-center text-muted">
+            <i class="bi bi-shield-check text-success fs-1 d-block mb-2"></i>
+            <h5>No Incidents Found</h5>
+            <p class="small mb-0">No security incidents match the current filter.</p>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
