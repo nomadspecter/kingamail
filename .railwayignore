@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+.sitonik/
+__pycache__/
+*.pyc
+instance/
+*.db
+*.sqlite*
+university_docs/
+FINAL_YEAR_PROJECT_REPORT.md
+NOTES.md

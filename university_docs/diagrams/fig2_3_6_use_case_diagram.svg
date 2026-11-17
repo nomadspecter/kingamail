@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="690" viewBox="0 0 1040 690">
+  <defs>
+    <style>
+      text { font-family: "Liberation Sans", "DejaVu Sans", Arial, sans-serif; }
+      .title { font-size: 16px; font-weight: bold; fill: #0F172A; }
+      .hdr-w { font-size: 12px; font-weight: bold; fill: #FFFFFF; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2F5496"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#DC2626"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#059669"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#D97706"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1040" height="690" fill="#FFFFFF"/>
+  <rect x="8" y="8" width="1024" height="674" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="520.0" y="34" text-anchor="middle" class="title">Figure 2.3.6: Role-Based UML Use Case Diagram — KingaMail Corporate Shield</text>
+
+<rect x="200" y="58" width="640" height="608" rx="10" fill="#FFFFFF" stroke="#2F5496" stroke-width="2.2"/>
+<text x="520" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#2F5496">KINGAMAIL CORPORATE SHIELD BOUNDARY</text>
+<circle cx="92" cy="259" r="11" fill="#FFFFFF" stroke="#059669" stroke-width="2"/>
+  <line x1="92" y1="270" x2="92" y2="297" stroke="#059669" stroke-width="2"/>
+  <line x1="76" y1="280" x2="108" y2="280" stroke="#059669" stroke-width="2"/>
+  <line x1="92" y1="297" x2="79" y2="317" stroke="#059669" stroke-width="2"/>
+  <line x1="92" y1="297" x2="105" y2="317" stroke="#059669" stroke-width="2"/>
+  <text x="92" y="333" text-anchor="middle" font-size="12" font-weight="bold" fill="#059669">Employee</text>
+<circle cx="92" cy="514" r="11" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/>
+  <line x1="92" y1="525" x2="92" y2="552" stroke="#D97706" stroke-width="2"/>
+  <line x1="76" y1="535" x2="108" y2="535" stroke="#D97706" stroke-width="2"/>
+  <line x1="92" y1="552" x2="79" y2="572" stroke="#D97706" stroke-width="2"/>
+  <line x1="92" y1="552" x2="105" y2="572" stroke="#D97706" stroke-width="2"/>
+  <text x="92" y="588" text-anchor="middle" font-size="12" font-weight="bold" fill="#D97706">Dept Manager</text>
+<circle cx="948" cy="344" r="11" fill="#FFFFFF" stroke="#DC2626" stroke-width="2"/>
+  <line x1="948" y1="355" x2="948" y2="382" stroke="#DC2626" stroke-width="2"/>
+  <line x1="932" y1="365" x2="964" y2="365" stroke="#DC2626" stroke-width="2"/>
+  <line x1="948" y1="382" x2="935" y2="402" stroke="#DC2626" stroke-width="2"/>
+  <line x1="948" y1="382" x2="961" y2="402" stroke="#DC2626" stroke-width="2"/>
+  <text x="948" y="418" text-anchor="middle" font-size="12" font-weight="bold" fill="#DC2626">IT Admin (SOC)</text>
+<path d="M 92,498 L 92,342" fill="none" stroke="#D97706" stroke-width="1.8"  marker-end="url(#arrow-amber)"/>
+<rect x="49.2" y="411.0" width="85.6" height="15" rx="3" fill="#F8FAFC"/><text x="92" y="422" text-anchor="middle" font-size="10" font-weight="bold" fill="#D97706">&lt;&lt;inherits&gt;&gt;</text>
+<ellipse cx="347" cy="130" rx="125" ry="25" fill="#EFF6FF" stroke="#2F5496" stroke-width="1.8"/>
+  <text x="347" y="132.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Sign In &amp; Reset Password</text>
+<ellipse cx="689" cy="130" rx="118" ry="25" fill="#EFF6FF" stroke="#2F5496" stroke-width="1.8"/>
+  <text x="689" y="132.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Verify 6-Digit 2FA OTP</text>
+<ellipse cx="347" cy="205" rx="125" ry="25" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="347" y="207.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">View Inbox &amp; Quarantine</text>
+<ellipse cx="347" cy="275" rx="125" ry="25" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="347" y="277.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Scan Email (12 Rules)</text>
+<ellipse cx="347" cy="345" rx="125" ry="25" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="347" y="347.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Report Phishing Email</text>
+<ellipse cx="347" cy="415" rx="125" ry="25" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="347" y="417.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Read &amp; Acknowledge Alerts</text>
+<ellipse cx="347" cy="485" rx="125" ry="25" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="347" y="487.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Take Training &amp; DB Quiz</text>
+<ellipse cx="520" cy="610" rx="155" ry="25" fill="#FFFBEB" stroke="#D97706" stroke-width="1.8"/>
+  <text x="520" y="612.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Dept Risk Dashboard &amp; CSV Export</text>
+<ellipse cx="689" cy="235" rx="125" ry="25" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="689" y="237.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Triage Phishing Reports</text>
+<ellipse cx="689" cy="315" rx="125" ry="25" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="689" y="317.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Open Incident &amp; Contain</text>
+<ellipse cx="689" cy="392" rx="125" ry="25" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="689" y="394.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Manage Blocked Senders</text>
+<ellipse cx="689" cy="466" rx="125" ry="25" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="689" y="468.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Launch Zero-Cred Simulations</text>
+<ellipse cx="689" cy="540" rx="125" ry="25" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="689" y="542.2" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Broadcast Alerts &amp; SOC View</text>
+<line x1="114" y1="280" x2="222" y2="130" stroke="#059669" stroke-width="1.5"/>
+<line x1="114" y1="280" x2="222" y2="205" stroke="#059669" stroke-width="1.5"/>
+<line x1="114" y1="280" x2="222" y2="275" stroke="#059669" stroke-width="1.5"/>
+<line x1="114" y1="280" x2="222" y2="345" stroke="#059669" stroke-width="1.5"/>
+<line x1="114" y1="280" x2="222" y2="415" stroke="#059669" stroke-width="1.5"/>
+<line x1="114" y1="280" x2="222" y2="485" stroke="#059669" stroke-width="1.5"/>
+<line x1="114" y1="544" x2="365" y2="610" stroke="#D97706" stroke-width="1.8"/>
+<line x1="925" y1="365" x2="807" y2="130" stroke="#DC2626" stroke-width="1.5"/>
+<line x1="925" y1="365" x2="814" y2="235" stroke="#DC2626" stroke-width="1.5"/>
+<line x1="925" y1="365" x2="814" y2="315" stroke="#DC2626" stroke-width="1.5"/>
+<line x1="925" y1="365" x2="814" y2="392" stroke="#DC2626" stroke-width="1.5"/>
+<line x1="925" y1="365" x2="814" y2="466" stroke="#DC2626" stroke-width="1.5"/>
+<line x1="925" y1="365" x2="814" y2="540" stroke="#DC2626" stroke-width="1.5"/>
+<path d="M 948,432 L 948,610 L 675,610" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,4"/>
+<path d="M 472,130 L 571,130" fill="none" stroke="#2F5496" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#arrow-blue)"/>
+<rect x="481.4" y="103.0" width="79.3" height="15" rx="3" fill="#FFFFFF"/><text x="521" y="114" text-anchor="middle" font-size="10" font-weight="bold" fill="#2F5496">&lt;&lt;include&gt;&gt;</text>
+<path d="M 689,260 L 689,290" fill="none" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#arrow-red)"/>
+<rect x="696.4" y="265.0" width="79.3" height="15" rx="3" fill="#FFFFFF"/><text x="736" y="276" text-anchor="middle" font-size="10" font-weight="bold" fill="#DC2626">&lt;&lt;include&gt;&gt;</text>
+</svg>

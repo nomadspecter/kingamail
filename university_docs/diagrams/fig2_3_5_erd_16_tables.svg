@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="820" viewBox="0 0 1040 820">
+  <defs>
+    <style>
+      text { font-family: "Liberation Sans", "DejaVu Sans", Arial, sans-serif; }
+      .title { font-size: 16px; font-weight: bold; fill: #0F172A; }
+      .hdr-w { font-size: 12px; font-weight: bold; fill: #FFFFFF; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2F5496"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#DC2626"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#059669"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#D97706"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1040" height="820" fill="#FFFFFF"/>
+  <rect x="8" y="8" width="1024" height="804" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="520.0" y="34" text-anchor="middle" class="title">Figure 2.3.5: Entity Relationship Diagram (ERD) — All 16 PostgreSQL Tables</text>
+
+<rect x="22" y="52" width="488" height="355" rx="8" fill="#EFF6FF" stroke="#2F5496" stroke-width="1.2" stroke-dasharray="6,4"/>
+<text x="34" y="70" font-size="10.5" font-weight="bold" fill="#2F5496">IDENTITY &amp; ACCESS CLUSTER (4 TABLES)</text>
+<rect x="530" y="52" width="488" height="355" rx="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="6,4"/>
+<text x="542" y="70" font-size="10.5" font-weight="bold" fill="#DC2626">INCIDENT RESPONSE &amp; ADVISORY CLUSTER (4 TABLES)</text>
+<rect x="22" y="422" width="488" height="380" rx="8" fill="#ECFDF5" stroke="#059669" stroke-width="1.2" stroke-dasharray="6,4"/>
+<text x="34" y="440" font-size="10.5" font-weight="bold" fill="#059669">MAILBOX, DETECTION &amp; BLOCKLIST (2 TABLES + RULES)</text>
+<rect x="530" y="422" width="488" height="380" rx="8" fill="#FFFBEB" stroke="#D97706" stroke-width="1.2" stroke-dasharray="6,4"/>
+<text x="542" y="440" font-size="10.5" font-weight="bold" fill="#D97706">SIMULATION &amp; AWARENESS QUIZ CLUSTER (6 TABLES)</text>
+<rect x="38" y="78" width="188" height="59" rx="5" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.6"/>
+  <rect x="38" y="78" width="188" height="22" rx="4" fill="#2F5496"/>
+  <text x="132.0" y="93" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">department</text>
+  <text x="46" y="114.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="46" y="128.5" font-size="9.5"  fill="#334155">code, name (UQ)</text>
+<rect x="38" y="160" width="188" height="59" rx="5" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.6"/>
+  <rect x="38" y="160" width="188" height="22" rx="4" fill="#2F5496"/>
+  <text x="132.0" y="175" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">role</text>
+  <text x="46" y="196.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="46" y="210.5" font-size="9.5"  fill="#334155">name ('Employee'|'Manager'|'IT Admin')</text>
+<rect x="38" y="245" width="195" height="88" rx="5" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.6"/>
+  <rect x="38" y="245" width="195" height="22" rx="4" fill="#2F5496"/>
+  <text x="135.5" y="260" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">login_log</text>
+  <text x="46" y="281.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="46" y="295.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK user_id -&gt; user.id</text>
+  <text x="46" y="310.0" font-size="9.5"  fill="#334155">email_attempted, ip_address</text>
+  <text x="46" y="324.5" font-size="9.5"  fill="#334155">status, failure_reason</text>
+<rect x="262" y="82" width="232" height="146" rx="5" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.6"/>
+  <rect x="262" y="82" width="232" height="22" rx="4" fill="#2F5496"/>
+  <text x="378.0" y="97" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">user</text>
+  <text x="270" y="118.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="270" y="132.5" font-size="9.5"  fill="#334155">email (UQ, IDX), full_name</text>
+  <text x="270" y="147.0" font-size="9.5"  fill="#334155">password_hash: String(255)</text>
+  <text x="270" y="161.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK role_id -&gt; role.id</text>
+  <text x="270" y="176.0" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK department_id -&gt; department.id</text>
+  <text x="270" y="190.5" font-size="9.5"  fill="#334155">status ('active'|'locked'|'compromised')</text>
+  <text x="270" y="205.0" font-size="9.5"  fill="#334155">otp_code: String(255), otp_expiry</text>
+  <text x="270" y="219.5" font-size="9.5"  fill="#334155">force_password_reset, failed_login_count</text>
+<path d="M 226,108 L 262,108" fill="none" stroke="#2F5496" stroke-width="1.8"  marker-end="url(#arrow-blue)"/>
+<path d="M 226,185 L 262,165" fill="none" stroke="#2F5496" stroke-width="1.8"  marker-end="url(#arrow-blue)"/>
+<path d="M 262,212 L 233,275" fill="none" stroke="#2F5496" stroke-width="1.8"  marker-end="url(#arrow-blue)"/>
+<rect x="546" y="78" width="220" height="102" rx="5" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.6"/>
+  <rect x="546" y="78" width="220" height="22" rx="4" fill="#DC2626"/>
+  <text x="656.0" y="93" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">report</text>
+  <text x="554" y="114.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="554" y="128.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK email_id -&gt; email.id</text>
+  <text x="554" y="143.0" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK reported_by_user_id -&gt; user.id</text>
+  <text x="554" y="157.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK reviewed_by_user_id -&gt; user.id</text>
+  <text x="554" y="172.0" font-size="9.5"  fill="#334155">admin_verdict ('pending'|'phishing'...)</text>
+<rect x="784" y="78" width="220" height="117" rx="5" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.6"/>
+  <rect x="784" y="78" width="220" height="22" rx="4" fill="#DC2626"/>
+  <text x="894.0" y="93" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">incident</text>
+  <text x="792" y="114.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="792" y="128.5" font-size="9.5"  fill="#334155">incident_number (INC-YYYY-XXXX)</text>
+  <text x="792" y="143.0" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK report_id -&gt; report.id</text>
+  <text x="792" y="157.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK affected_user_id -&gt; user.id</text>
+  <text x="792" y="172.0" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK created_by_user_id -&gt; user.id</text>
+  <text x="792" y="186.5" font-size="9.5"  fill="#334155">severity, status, actions_log (JSON)</text>
+<rect x="546" y="248" width="220" height="88" rx="5" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.6"/>
+  <rect x="546" y="248" width="220" height="22" rx="4" fill="#DC2626"/>
+  <text x="656.0" y="263" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">alert</text>
+  <text x="554" y="284.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="554" y="298.5" font-size="9.5"  fill="#334155">title, message, severity</text>
+  <text x="554" y="313.0" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK incident_id -&gt; incident.id</text>
+  <text x="554" y="327.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK created_by_user_id -&gt; user.id</text>
+<rect x="784" y="248" width="220" height="88" rx="5" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.6"/>
+  <rect x="784" y="248" width="220" height="22" rx="4" fill="#DC2626"/>
+  <text x="894.0" y="263" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">alert_recipient</text>
+  <text x="792" y="284.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="792" y="298.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK alert_id -&gt; alert.id</text>
+  <text x="792" y="313.0" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK user_id -&gt; user.id</text>
+  <text x="792" y="327.5" font-size="9.5"  fill="#334155">is_read: Boolean, read_at</text>
+<path d="M 766,118 L 784,118" fill="none" stroke="#DC2626" stroke-width="1.8"  marker-end="url(#arrow-red)"/>
+<path d="M 845,198 L 745,248" fill="none" stroke="#DC2626" stroke-width="1.8"  marker-end="url(#arrow-red)"/>
+<path d="M 766,286 L 784,286" fill="none" stroke="#DC2626" stroke-width="1.8"  marker-end="url(#arrow-red)"/>
+<rect x="42" y="460" width="232" height="146" rx="5" fill="#FFFFFF" stroke="#059669" stroke-width="1.6"/>
+  <rect x="42" y="460" width="232" height="22" rx="4" fill="#059669"/>
+  <text x="158.0" y="475" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">email</text>
+  <text x="50" y="496.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="50" y="510.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK recipient_id -&gt; user.id</text>
+  <text x="50" y="525.0" font-size="9.5"  fill="#334155">sender, reply_to, subject, body</text>
+  <text x="50" y="539.5" font-size="9.5"  fill="#334155">risk_score: Integer</text>
+  <text x="50" y="554.0" font-size="9.5"  fill="#334155">verdict ('Safe'|'Suspicious'|'Quarantine')</text>
+  <text x="50" y="568.5" font-size="9.5"  fill="#334155">indicators: JSON (Triggered Rules)</text>
+  <text x="50" y="583.0" font-size="9.5"  fill="#334155">status ('inbox'|'quarantined')</text>
+  <text x="50" y="597.5" font-size="9.5"  fill="#334155">is_read, is_reported, received_at</text>
+<rect x="294" y="460" width="204" height="88" rx="5" fill="#FFFFFF" stroke="#059669" stroke-width="1.6"/>
+  <rect x="294" y="460" width="204" height="22" rx="4" fill="#059669"/>
+  <text x="396.0" y="475" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">blocked_sender</text>
+  <text x="302" y="496.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="302" y="510.5" font-size="9.5"  fill="#334155">sender_value (UQ)</text>
+  <text x="302" y="525.0" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK blocked_by_user_id -&gt; user.id</text>
+  <text x="302" y="539.5" font-size="9.5"  fill="#334155">reason: Text, created_at</text>
+<rect x="42" y="650" width="456" height="125" rx="8" fill="#FFFFFF" stroke="#059669" stroke-width="1.8"/>
+  <text x="270.0" y="687.5" text-anchor="middle" font-size="10" font-weight="bold" fill="#0F172A">CROSS-CLUSTER FOREIGN KEY INTEGRITY SUMMARY</text>
+  <text x="270.0" y="701.5" text-anchor="middle" font-size="10"  fill="#0F172A">• user.id links to login_log, email, blocked_sender, report, incident,</text>
+  <text x="270.0" y="715.5" text-anchor="middle" font-size="10"  fill="#0F172A">  alert, alert_recipient, campaign, sim_result, and quiz_result (1 : N)</text>
+  <text x="270.0" y="729.5" text-anchor="middle" font-size="10"  fill="#0F172A">• email.id links to report.email_id (1 : N reported emails)</text>
+  <text x="270.0" y="743.5" text-anchor="middle" font-size="10"  fill="#0F172A">• Alembic Revisions: 857b527918a8 -&gt; 60b452761b66 -&gt; bfaa1479c244</text>
+<path d="M 284,228 L 284,520 L 274,520" fill="none" stroke="#2F5496" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#arrow-blue)"/>
+<path d="M 284,228 L 284,520 L 294,520" fill="none" stroke="#2F5496" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#arrow-blue)"/>
+<path d="M 494,130 L 546,130" fill="none" stroke="#2F5496" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#arrow-blue)"/>
+<rect x="546" y="452" width="215" height="88" rx="5" fill="#FFFFFF" stroke="#D97706" stroke-width="1.6"/>
+  <rect x="546" y="452" width="215" height="22" rx="4" fill="#D97706"/>
+  <text x="653.5" y="467" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">campaign</text>
+  <text x="554" y="488.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="554" y="502.5" font-size="9.5"  fill="#334155">name, template_subject/body</text>
+  <text x="554" y="517.0" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK created_by_user_id -&gt; user.id</text>
+  <text x="554" y="531.5" font-size="9.5"  fill="#334155">status, start_date, end_date</text>
+<rect x="784" y="452" width="220" height="102" rx="5" fill="#FFFFFF" stroke="#D97706" stroke-width="1.6"/>
+  <rect x="784" y="452" width="220" height="22" rx="4" fill="#D97706"/>
+  <text x="894.0" y="467" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">sim_result</text>
+  <text x="792" y="488.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="792" y="502.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK campaign_id -&gt; campaign.id</text>
+  <text x="792" y="517.0" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK user_id -&gt; user.id</text>
+  <text x="792" y="531.5" font-size="9.5"  fill="#334155">tracking_token (UQ, IDX)</text>
+  <text x="792" y="546.0" font-size="9.5"  fill="#334155">is_clicked, is_reported (No Passwords)</text>
+<rect x="546" y="578" width="215" height="74" rx="5" fill="#FFFFFF" stroke="#D97706" stroke-width="1.6"/>
+  <rect x="546" y="578" width="215" height="22" rx="4" fill="#D97706"/>
+  <text x="653.5" y="593" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">training_module</text>
+  <text x="554" y="614.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="554" y="628.5" font-size="9.5"  fill="#334155">title, category, difficulty</text>
+  <text x="554" y="643.0" font-size="9.5"  fill="#334155">estimated_minutes, content</text>
+<rect x="784" y="578" width="220" height="88" rx="5" fill="#FFFFFF" stroke="#D97706" stroke-width="1.6"/>
+  <rect x="784" y="578" width="220" height="22" rx="4" fill="#D97706"/>
+  <text x="894.0" y="593" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">quiz_result</text>
+  <text x="792" y="614.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="792" y="628.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK user_id -&gt; user.id</text>
+  <text x="792" y="643.0" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK training_module_id -&gt; training_module.id</text>
+  <text x="792" y="657.5" font-size="9.5"  fill="#334155">score (%), correct_answers, passed (&gt;=70%)</text>
+<rect x="546" y="686" width="215" height="74" rx="5" fill="#FFFFFF" stroke="#D97706" stroke-width="1.6"/>
+  <rect x="546" y="686" width="215" height="22" rx="4" fill="#D97706"/>
+  <text x="653.5" y="701" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">quiz_question</text>
+  <text x="554" y="722.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="554" y="736.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK module_id -&gt; training_module.id</text>
+  <text x="554" y="751.0" font-size="9.5"  fill="#334155">question_text, explanation</text>
+<rect x="784" y="686" width="220" height="74" rx="5" fill="#FFFFFF" stroke="#D97706" stroke-width="1.6"/>
+  <rect x="784" y="686" width="220" height="22" rx="4" fill="#D97706"/>
+  <text x="894.0" y="701" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">quiz_option</text>
+  <text x="792" y="722.0" font-size="9.5" font-weight="bold" fill="#0F172A">PK id: Integer</text>
+  <text x="792" y="736.5" font-size="9.5" font-weight="bold" fill="#1D4ED8">FK question_id -&gt; quiz_question.id</text>
+  <text x="792" y="751.0" font-size="9.5"  fill="#334155">option_text, is_correct: Boolean</text>
+<path d="M 761,492 L 784,492" fill="none" stroke="#D97706" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<path d="M 761,616 L 784,616" fill="none" stroke="#D97706" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<path d="M 652,650 L 652,686" fill="none" stroke="#D97706" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<path d="M 761,725 L 784,725" fill="none" stroke="#D97706" stroke-width="1.8"  marker-end="url(#arrow)"/>
+</svg>

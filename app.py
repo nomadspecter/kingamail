@@ -18,6 +18,7 @@ import os
 import time
 import secrets
 from flask import Flask, request, session, redirect, url_for, flash, abort
+from werkzeug.middleware.proxy_fix import ProxyFix
 from config import config_dict
 from database import init_db
 from models import User
@@ -41,6 +42,9 @@ def create_app(config_name=None):
         config_name = os.getenv("FLASK_ENV", "default")
 
     app = Flask(__name__)
+
+    # Trust reverse-proxy headers (X-Forwarded-Proto/Host/For) on cloud PaaS (Railway/Render)
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
     # Load configuration settings
     config_class = config_dict.get(config_name, config_dict["default"])

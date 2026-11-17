@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="740" viewBox="0 0 960 740">
+  <defs>
+    <style>
+      text { font-family: "Liberation Sans", "DejaVu Sans", Arial, sans-serif; }
+      .title { font-size: 16px; font-weight: bold; fill: #0F172A; }
+      .hdr-w { font-size: 12px; font-weight: bold; fill: #FFFFFF; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2F5496"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#DC2626"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#059669"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#D97706"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="960" height="740" fill="#FFFFFF"/>
+  <rect x="8" y="8" width="944" height="724" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="480.0" y="34" text-anchor="middle" class="title">Figure 2.3.4: Level 1 Data Flow Diagram (DFD) — Processes &amp; Data Stores</text>
+
+<rect x="24" y="95" width="135" height="68" rx="4" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="91.5" y="132.8" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">EMPLOYEE</text>
+<rect x="24" y="340" width="135" height="68" rx="4" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="91.5" y="377.8" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">IT ADMIN (SOC)</text>
+<rect x="24" y="585" width="135" height="68" rx="4" fill="#FFFBEB" stroke="#D97706" stroke-width="1.8"/>
+  <text x="91.5" y="622.8" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">DEPT MANAGER</text>
+<rect x="260" y="68" width="250" height="84" rx="10" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.8"/>
+<rect x="260" y="68" width="250" height="24" rx="6" fill="#2F5496"/>
+<text x="385" y="84" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">1.0 Authenticate &amp; Enforce RBAC</text>
+<text x="385" y="124" text-anchor="middle" font-size="11" fill="#334155">Login, 6-Digit OTP, Timeout, Reset</text>
+<rect x="260" y="194" width="250" height="84" rx="10" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.8"/>
+<rect x="260" y="194" width="250" height="24" rx="6" fill="#2F5496"/>
+<text x="385" y="210" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">2.0 Heuristic Email Threat Scan</text>
+<text x="385" y="250" text-anchor="middle" font-size="11" fill="#334155">12 Kenyan Rules &amp; Scoring Matrix</text>
+<rect x="260" y="320" width="250" height="84" rx="10" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.8"/>
+<rect x="260" y="320" width="250" height="24" rx="6" fill="#2F5496"/>
+<text x="385" y="336" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">3.0 Incident Triage &amp; Containment</text>
+<text x="385" y="376" text-anchor="middle" font-size="11" fill="#334155">Reports, INC-YYYY-XXXX, Broadcast</text>
+<rect x="260" y="446" width="250" height="84" rx="10" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.8"/>
+<rect x="260" y="446" width="250" height="24" rx="6" fill="#2F5496"/>
+<text x="385" y="462" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">4.0 Simulations &amp; Awareness Quiz</text>
+<text x="385" y="502" text-anchor="middle" font-size="11" fill="#334155">Zero-Cred Token Track &amp; DB Quiz</text>
+<rect x="260" y="572" width="250" height="84" rx="10" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.8"/>
+<rect x="260" y="572" width="250" height="24" rx="6" fill="#2F5496"/>
+<text x="385" y="588" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">5.0 Analytics &amp; Audit Reporting</text>
+<text x="385" y="628" text-anchor="middle" font-size="11" fill="#334155">Chart.js Dashboards &amp; CSV Export</text>
+<rect x="655" y="84" width="275" height="54" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.6"/>
+  <line x1="693" y1="84" x2="693" y2="138" stroke="#2F5496" stroke-width="1.6"/>
+  <rect x="655" y="84" width="38" height="54" fill="#DBEAFE" stroke="#2F5496" stroke-width="1.6"/>
+  <text x="674" y="115.0" text-anchor="middle" font-size="11" font-weight="bold" fill="#2F5496">D1</text>
+  <text x="703" y="115.0" font-size="11" font-weight="bold" fill="#0F172A">user / role / department / login_log</text>
+<rect x="655" y="224" width="275" height="54" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.6"/>
+  <line x1="693" y1="224" x2="693" y2="278" stroke="#2F5496" stroke-width="1.6"/>
+  <rect x="655" y="224" width="38" height="54" fill="#DBEAFE" stroke="#2F5496" stroke-width="1.6"/>
+  <text x="674" y="255.0" text-anchor="middle" font-size="11" font-weight="bold" fill="#2F5496">D2</text>
+  <text x="703" y="255.0" font-size="11" font-weight="bold" fill="#0F172A">email / blocked_sender</text>
+<rect x="655" y="364" width="275" height="54" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.6"/>
+  <line x1="693" y1="364" x2="693" y2="418" stroke="#2F5496" stroke-width="1.6"/>
+  <rect x="655" y="364" width="38" height="54" fill="#DBEAFE" stroke="#2F5496" stroke-width="1.6"/>
+  <text x="674" y="395.0" text-anchor="middle" font-size="11" font-weight="bold" fill="#2F5496">D3</text>
+  <text x="703" y="395.0" font-size="11" font-weight="bold" fill="#0F172A">report / incident / alert / alert_recipient</text>
+<rect x="655" y="514" width="275" height="54" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.6"/>
+  <line x1="693" y1="514" x2="693" y2="568" stroke="#2F5496" stroke-width="1.6"/>
+  <rect x="655" y="514" width="38" height="54" fill="#DBEAFE" stroke="#2F5496" stroke-width="1.6"/>
+  <text x="674" y="545.0" text-anchor="middle" font-size="11" font-weight="bold" fill="#2F5496">D4</text>
+  <text x="703" y="545.0" font-size="11" font-weight="bold" fill="#0F172A">campaign / sim_result / training / quiz_*</text>
+<path d="M 159,112 L 260,112" fill="none" stroke="#059669" stroke-width="1.8"  marker-end="url(#arrow-green)"/>
+<rect x="149.4" y="89.0" width="117.1" height="15" rx="3" fill="#F8FAFC"/><text x="208" y="100" text-anchor="middle" font-size="10" font-weight="bold" fill="#059669">Credentials / OTP</text>
+<path d="M 159,145 L 210,145 L 210,236 L 260,236" fill="none" stroke="#059669" stroke-width="1.8"  marker-end="url(#arrow-green)"/>
+<rect x="176.7" y="174.0" width="66.7" height="15" rx="3" fill="#F8FAFC"/><text x="210" y="185" text-anchor="middle" font-size="10" font-weight="bold" fill="#059669">Raw Email</text>
+<path d="M 159,360 L 260,360" fill="none" stroke="#DC2626" stroke-width="1.8"  marker-end="url(#arrow-red)"/>
+<rect x="156.8" y="337.0" width="104.5" height="15" rx="3" fill="#F8FAFC"/><text x="209" y="348" text-anchor="middle" font-size="10" font-weight="bold" fill="#DC2626">Verdict &amp; Alert</text>
+<path d="M 159,392 L 195,392 L 195,488 L 260,488" fill="none" stroke="#DC2626" stroke-width="1.8"  marker-end="url(#arrow-red)"/>
+<rect x="171.7" y="429.0" width="66.7" height="15" rx="3" fill="#F8FAFC"/><text x="205" y="440" text-anchor="middle" font-size="10" font-weight="bold" fill="#DC2626">Campaigns</text>
+<path d="M 159,619 L 260,619" fill="none" stroke="#D97706" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<rect x="166.2" y="597.0" width="85.6" height="15" rx="3" fill="#F8FAFC"/><text x="209" y="608" text-anchor="middle" font-size="10" font-weight="bold" fill="#D97706">CSV / Filter</text>
+<path d="M 510,110 L 655,110" fill="none" stroke="#2F5496" stroke-width="1.8"  marker-end="url(#arrow-blue)"/>
+<rect x="523.5" y="89.0" width="117.1" height="15" rx="3" fill="#F8FAFC"/><text x="582" y="100" text-anchor="middle" font-size="10" font-weight="bold" fill="#2F5496">Verify / Log Auth</text>
+<path d="M 510,236 L 655,236" fill="none" stroke="#2F5496" stroke-width="1.8"  marker-end="url(#arrow-blue)"/>
+<rect x="520.3" y="215.0" width="123.4" height="15" rx="3" fill="#F8FAFC"/><text x="582" y="226" text-anchor="middle" font-size="10" font-weight="bold" fill="#2F5496">Score &amp; Quarantine</text>
+<path d="M 510,345 L 595,345 L 595,265 L 655,265" fill="none" stroke="#DC2626" stroke-width="1.8"  marker-end="url(#arrow-red)"/>
+<rect x="534.6" y="293.0" width="110.8" height="15" rx="3" fill="#F8FAFC"/><text x="590" y="304" text-anchor="middle" font-size="10" font-weight="bold" fill="#DC2626">Blacklist Sender</text>
+<path d="M 510,378 L 655,378" fill="none" stroke="#2F5496" stroke-width="1.8"  marker-end="url(#arrow-blue)"/>
+<rect x="536.0" y="387.0" width="91.9" height="15" rx="3" fill="#F8FAFC"/><text x="582" y="398" text-anchor="middle" font-size="10" font-weight="bold" fill="#2F5496">INC-YYYY-XXXX</text>
+<path d="M 510,488 L 610,488 L 610,534 L 655,534" fill="none" stroke="#059669" stroke-width="1.8"  marker-end="url(#arrow-green)"/>
+<rect x="517.1" y="465.0" width="129.7" height="15" rx="3" fill="#F8FAFC"/><text x="582" y="476" text-anchor="middle" font-size="10" font-weight="bold" fill="#059669">Clicks &amp; Quiz Score</text>
+<path d="M 655,560 L 575,560 L 575,614 L 510,614" fill="none" stroke="#2F5496" stroke-width="1.8"  marker-end="url(#arrow-blue)"/>
+<rect x="523.3" y="615.0" width="123.4" height="15" rx="3" fill="#F8FAFC"/><text x="585" y="626" text-anchor="middle" font-size="10" font-weight="bold" fill="#2F5496">Aggregated Metrics</text>
+</svg>

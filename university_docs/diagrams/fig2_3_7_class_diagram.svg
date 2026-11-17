@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="690" viewBox="0 0 980 690">
+  <defs>
+    <style>
+      text { font-family: "Liberation Sans", "DejaVu Sans", Arial, sans-serif; }
+      .title { font-size: 16px; font-weight: bold; fill: #0F172A; }
+      .hdr-w { font-size: 12px; font-weight: bold; fill: #FFFFFF; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2F5496"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#DC2626"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#059669"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#D97706"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="980" height="690" fill="#FFFFFF"/>
+  <rect x="8" y="8" width="964" height="674" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="490.0" y="34" text-anchor="middle" class="title">Figure 2.3.7: Core Object-Oriented Class Diagram — Models &amp; Detection Service</text>
+
+<rect x="32" y="74" width="210" height="96" rx="4" fill="#FFFFFF" stroke="#334155" stroke-width="1.7"/>
+  <rect x="32" y="74" width="210" height="24" fill="#334155"/>
+  <text x="137.0" y="90" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#FFFFFF">Role &amp; Department</text>
+  <line x1="32" y1="148" x2="242" y2="148" stroke="#334155" stroke-width="1.2"/>
+  <text x="39" y="112" font-size="9.5" fill="#1E293B">- id: int</text>
+  <text x="39" y="126" font-size="9.5" fill="#1E293B">- name: str</text>
+  <text x="39" y="140" font-size="9.5" fill="#1E293B">- code: str (Department)</text>
+  <text x="39" y="162" font-size="9.5" font-weight="bold" fill="#334155">+ users: relationship&lt;User&gt;</text>
+<rect x="280" y="68" width="255" height="166" rx="4" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.7"/>
+  <rect x="280" y="68" width="255" height="24" fill="#2F5496"/>
+  <text x="407.5" y="84" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#FFFFFF">User</text>
+  <line x1="280" y1="184" x2="535" y2="184" stroke="#2F5496" stroke-width="1.2"/>
+  <text x="287" y="106" font-size="9.5" fill="#1E293B">- id: int, email: str</text>
+  <text x="287" y="120" font-size="9.5" fill="#1E293B">- password_hash: str</text>
+  <text x="287" y="134" font-size="9.5" fill="#1E293B">- role_id: int, department_id: int</text>
+  <text x="287" y="148" font-size="9.5" fill="#1E293B">- status: str (active|locked|compromised)</text>
+  <text x="287" y="162" font-size="9.5" fill="#1E293B">- otp_code: str, otp_expiry: datetime</text>
+  <text x="287" y="176" font-size="9.5" fill="#1E293B">- force_password_reset: bool</text>
+  <text x="287" y="198" font-size="9.5" font-weight="bold" fill="#2F5496">+ set_password() / check_password()</text>
+  <text x="287" y="212" font-size="9.5" font-weight="bold" fill="#2F5496">+ set_otp() / check_otp() / clear_otp()</text>
+  <text x="287" y="226" font-size="9.5" font-weight="bold" fill="#2F5496">+ is_compromised() / has_role()</text>
+<rect x="580" y="68" width="365" height="124" rx="4" fill="#FFFFFF" stroke="#059669" stroke-width="1.7"/>
+  <rect x="580" y="68" width="365" height="24" fill="#059669"/>
+  <text x="762.5" y="84" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#FFFFFF">ThreatScoringEngine &lt;&lt;service&gt;&gt;</text>
+  <line x1="580" y1="142" x2="945" y2="142" stroke="#059669" stroke-width="1.2"/>
+  <text x="587" y="106" font-size="9.5" fill="#1E293B">- THRESHOLD_SAFE_MAX = 24</text>
+  <text x="587" y="120" font-size="9.5" fill="#1E293B">- THRESHOLD_SUSPICIOUS_MAX = 54</text>
+  <text x="587" y="134" font-size="9.5" fill="#1E293B">- RULE-01..RULE-12 Kenyan Heuristics</text>
+  <text x="587" y="156" font-size="9.5" font-weight="bold" fill="#059669">+ parser.extract_email_parts(raw_email)</text>
+  <text x="587" y="170" font-size="9.5" font-weight="bold" fill="#059669">+ scoring.analyze_email(raw_email, custom_blocked)</text>
+  <text x="587" y="184" font-size="9.5" font-weight="bold" fill="#059669">+ check_blocklist() / check_kenya_*() -&gt; dict</text>
+<rect x="32" y="286" width="230" height="138" rx="4" fill="#FFFFFF" stroke="#059669" stroke-width="1.7"/>
+  <rect x="32" y="286" width="230" height="24" fill="#059669"/>
+  <text x="147.0" y="302" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#FFFFFF">Email</text>
+  <line x1="32" y1="388" x2="262" y2="388" stroke="#059669" stroke-width="1.2"/>
+  <text x="39" y="324" font-size="9.5" fill="#1E293B">- id: int, recipient_id: int</text>
+  <text x="39" y="338" font-size="9.5" fill="#1E293B">- sender: str, subject: str</text>
+  <text x="39" y="352" font-size="9.5" fill="#1E293B">- risk_score: int, verdict: str</text>
+  <text x="39" y="366" font-size="9.5" fill="#1E293B">- indicators: JSON</text>
+  <text x="39" y="380" font-size="9.5" fill="#1E293B">- status: str (inbox|quarantined)</text>
+  <text x="39" y="402" font-size="9.5" font-weight="bold" fill="#059669">+ is_reported: bool</text>
+  <text x="39" y="416" font-size="9.5" font-weight="bold" fill="#059669">+ reports: relationship&lt;Report&gt;</text>
+<rect x="300" y="286" width="235" height="110" rx="4" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.7"/>
+  <rect x="300" y="286" width="235" height="24" fill="#DC2626"/>
+  <text x="417.5" y="302" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#FFFFFF">Report &amp; BlockedSender</text>
+  <line x1="300" y1="360" x2="535" y2="360" stroke="#DC2626" stroke-width="1.2"/>
+  <text x="307" y="324" font-size="9.5" fill="#1E293B">- Report.id, email_id, reported_by_user_id</text>
+  <text x="307" y="338" font-size="9.5" fill="#1E293B">- admin_verdict (pending|phishing|safe)</text>
+  <text x="307" y="352" font-size="9.5" fill="#1E293B">- BlockedSender.sender_value (UQ)</text>
+  <text x="307" y="374" font-size="9.5" font-weight="bold" fill="#DC2626">+ triage_report(verdict)</text>
+  <text x="307" y="388" font-size="9.5" font-weight="bold" fill="#DC2626">+ blacklist_sender(sender_value)</text>
+<rect x="580" y="260" width="365" height="124" rx="4" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.7"/>
+  <rect x="580" y="260" width="365" height="24" fill="#DC2626"/>
+  <text x="762.5" y="276" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#FFFFFF">Incident &amp; Alert</text>
+  <line x1="580" y1="348" x2="945" y2="348" stroke="#DC2626" stroke-width="1.2"/>
+  <text x="587" y="298" font-size="9.5" fill="#1E293B">- Incident.incident_number ('INC-YYYY-XXXX')</text>
+  <text x="587" y="312" font-size="9.5" fill="#1E293B">- severity, status, actions_log: JSON</text>
+  <text x="587" y="326" font-size="9.5" fill="#1E293B">- Alert.title, message, severity</text>
+  <text x="587" y="340" font-size="9.5" fill="#1E293B">- AlertRecipient.is_read, read_at</text>
+  <text x="587" y="362" font-size="9.5" font-weight="bold" fill="#DC2626">+ close_incident(resolution_notes)</text>
+  <text x="587" y="376" font-size="9.5" font-weight="bold" fill="#DC2626">+ broadcast_alert() / acknowledge_alert()</text>
+<rect x="32" y="492" width="290" height="110" rx="4" fill="#FFFFFF" stroke="#D97706" stroke-width="1.7"/>
+  <rect x="32" y="492" width="290" height="24" fill="#D97706"/>
+  <text x="177.0" y="508" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#FFFFFF">Campaign &amp; SimResult</text>
+  <line x1="32" y1="566" x2="322" y2="566" stroke="#D97706" stroke-width="1.2"/>
+  <text x="39" y="530" font-size="9.5" fill="#1E293B">- Campaign.name, status, template_subject</text>
+  <text x="39" y="544" font-size="9.5" fill="#1E293B">- SimResult.tracking_token (UQ)</text>
+  <text x="39" y="558" font-size="9.5" fill="#1E293B">- is_clicked: bool, is_reported: bool</text>
+  <text x="39" y="580" font-size="9.5" font-weight="bold" fill="#D97706">+ create_campaign() -&gt; dispatch tokens</text>
+  <text x="39" y="594" font-size="9.5" font-weight="bold" fill="#D97706">+ track_click(token) [Zero Credentials]</text>
+<rect x="360" y="492" width="300" height="96" rx="4" fill="#FFFFFF" stroke="#D97706" stroke-width="1.7"/>
+  <rect x="360" y="492" width="300" height="24" fill="#D97706"/>
+  <text x="510.0" y="508" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#FFFFFF">TrainingModule &amp; Quiz*</text>
+  <line x1="360" y1="566" x2="660" y2="566" stroke="#D97706" stroke-width="1.2"/>
+  <text x="367" y="530" font-size="9.5" fill="#1E293B">- TrainingModule.title, difficulty</text>
+  <text x="367" y="544" font-size="9.5" fill="#1E293B">- QuizQuestion.question_text, explanation</text>
+  <text x="367" y="558" font-size="9.5" fill="#1E293B">- QuizOption.option_text, is_correct: bool</text>
+  <text x="367" y="580" font-size="9.5" font-weight="bold" fill="#D97706">+ submit_quiz(module_id) -&gt; score &gt;= 70%</text>
+<rect x="695" y="492" width="250" height="96" rx="4" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.7"/>
+  <rect x="695" y="492" width="250" height="24" fill="#2F5496"/>
+  <text x="820.0" y="508" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#FFFFFF">QuizResult &amp; LoginLog</text>
+  <line x1="695" y1="552" x2="945" y2="552" stroke="#2F5496" stroke-width="1.2"/>
+  <text x="702" y="530" font-size="9.5" fill="#1E293B">- QuizResult.score (%), passed: bool</text>
+  <text x="702" y="544" font-size="9.5" fill="#1E293B">- LoginLog.status, ip_address, user_agent</text>
+  <text x="702" y="566" font-size="9.5" font-weight="bold" fill="#2F5496">+ log_login_attempt(status)</text>
+  <text x="702" y="580" font-size="9.5" font-weight="bold" fill="#2F5496">+ export_compliance_csv()</text>
+<path d="M 242,118 L 280,118" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<rect x="243.4" y="95.0" width="35.2" height="15" rx="3" fill="#F8FAFC"/><text x="261" y="106" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">1..*</text>
+<path d="M 535,118 L 580,118" fill="none" stroke="#059669" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#arrow-green)"/>
+<path d="M 380,234 L 160,286" fill="none" stroke="#059669" stroke-width="1.8"  marker-end="url(#arrow-green)"/>
+<rect x="247.2" y="245.0" width="41.5" height="15" rx="3" fill="#F8FAFC"/><text x="268" y="256" text-anchor="middle" font-size="10" font-weight="bold" fill="#059669">1 : N</text>
+<path d="M 262,344 L 300,344" fill="none" stroke="#DC2626" stroke-width="1.8"  marker-end="url(#arrow-red)"/>
+<path d="M 535,344 L 580,344" fill="none" stroke="#DC2626" stroke-width="1.8"  marker-end="url(#arrow-red)"/>
+<path d="M 147,424 L 147,492" fill="none" stroke="#D97706" stroke-width="1.8"  marker-end="url(#arrow-amber)"/>
+<path d="M 322,550 L 360,550" fill="none" stroke="#D97706" stroke-width="1.8"  marker-end="url(#arrow-amber)"/>
+<path d="M 660,550 L 695,550" fill="none" stroke="#2F5496" stroke-width="1.8"  marker-end="url(#arrow-blue)"/>
+</svg>

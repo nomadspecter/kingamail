@@ -4,6 +4,8 @@
 .env.*.local
 
 # Python virtual environment
+.venv/
+.sitonik/
 venv/
 env/
 ENV/

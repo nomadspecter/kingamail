@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="760" viewBox="0 0 920 760">
+  <defs>
+    <style>
+      text { font-family: "Liberation Sans", "DejaVu Sans", Arial, sans-serif; }
+      .title { font-size: 16px; font-weight: bold; fill: #0F172A; }
+      .hdr-w { font-size: 12px; font-weight: bold; fill: #FFFFFF; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2F5496"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#DC2626"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#059669"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#D97706"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="920" height="760" fill="#FFFFFF"/>
+  <rect x="8" y="8" width="904" height="744" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="460.0" y="34" text-anchor="middle" class="title">Figure 2.3.2: Heuristic Threat Scanning &amp; Closed-Loop Incident Triage Flowchart</text>
+
+<rect x="22" y="54" width="416" height="686" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+<text x="230" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#2F5496">A. OFFLINE KENYAN THREAT DETECTION PIPELINE</text>
+<ellipse cx="230" cy="114" rx="70" ry="21" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="230" y="116.8" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">EMAIL INPUT</text>
+<path d="M 230,135 L 230,160" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<rect x="62" y="160" width="336" height="52" rx="8" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.8"/>
+  <text x="230.0" y="182.0" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">Email Parser (detection/parser.py)</text>
+  <text x="230.0" y="197.5" text-anchor="middle" font-size="11.5"  fill="#0F172A">Unicode NFKD Normalize, RFC Headers, Base Domain, URLs</text>
+<path d="M 230,212 L 230,240" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<rect x="50" y="240" width="360" height="70" rx="8" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.8"/>
+  <text x="230.0" y="263.2" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">Evaluate 12 Deterministic Heuristic Rules (rules.py)</text>
+  <text x="230.0" y="278.8" text-anchor="middle" font-size="11.5"  fill="#0F172A">RULE-01 Blocklist | RULE-02 Trusted .go.ke/corporate.local</text>
+  <text x="230.0" y="294.2" text-anchor="middle" font-size="11.5"  fill="#0F172A">RULE-03..12 M-Pesa, KRA, Bank, Tender, Lure, Typosquat, Links</text>
+<path d="M 230,310 L 230,338" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<rect x="85" y="338" width="290" height="44" rx="8" fill="#FFFFFF" stroke="#2F5496" stroke-width="1.8"/>
+  <text x="230.0" y="356.0" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">Cumulative Risk Score (scoring.py)</text>
+  <text x="230.0" y="371.5" text-anchor="middle" font-size="11.5"  fill="#0F172A">total_score = sum(c['score'] for c in checks)</text>
+<path d="M 230,382 L 230,412" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<polygon points="230,412 358,456 230,500 102,456" fill="#FEF3C7" stroke="#D97706" stroke-width="1.8"/>
+  <text x="230" y="452.0" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F172A">Evaluate Risk</text>
+  <text x="230" y="466.0" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F172A">Score Brackets</text>
+<path d="M 102,456 L 92,456 L 92,535" fill="none" stroke="#059669" stroke-width="1.8"  marker-end="url(#arrow-green)"/>
+<rect x="90.4" y="484.0" width="35.2" height="15" rx="3" fill="#FFFFFF"/><text x="108" y="495" text-anchor="middle" font-size="10" font-weight="bold" fill="#059669">0–24</text>
+<rect x="36" y="535" width="114" height="62" rx="8" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="93.0" y="554.2" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">SAFE</text>
+  <text x="93.0" y="569.8" text-anchor="middle" font-size="11.5"  fill="#0F172A">Deliver to</text>
+  <text x="93.0" y="585.2" text-anchor="middle" font-size="11.5"  fill="#0F172A">Employee Inbox</text>
+<path d="M 230,500 L 230,535" fill="none" stroke="#D97706" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<rect x="237.2" y="507.0" width="41.5" height="15" rx="3" fill="#FFFFFF"/><text x="258" y="518" text-anchor="middle" font-size="10" font-weight="bold" fill="#D97706">25–54</text>
+<rect x="167" y="535" width="126" height="62" rx="8" fill="#FFFBEB" stroke="#D97706" stroke-width="1.8"/>
+  <text x="230.0" y="554.2" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">SUSPICIOUS</text>
+  <text x="230.0" y="569.8" text-anchor="middle" font-size="11.5"  fill="#0F172A">Inbox + Amber</text>
+  <text x="230.0" y="585.2" text-anchor="middle" font-size="11.5"  fill="#0F172A">Caution Banner</text>
+<path d="M 358,456 L 368,456 L 368,535" fill="none" stroke="#DC2626" stroke-width="1.8"  marker-end="url(#arrow-red)"/>
+<rect x="339.6" y="484.0" width="28.9" height="15" rx="3" fill="#FFFFFF"/><text x="354" y="495" text-anchor="middle" font-size="10" font-weight="bold" fill="#DC2626">55+</text>
+<rect x="310" y="535" width="114" height="62" rx="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="367.0" y="554.2" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">QUARANTINE</text>
+  <text x="367.0" y="569.8" text-anchor="middle" font-size="11.5"  fill="#0F172A">Isolate Away</text>
+  <text x="367.0" y="585.2" text-anchor="middle" font-size="11.5"  fill="#0F172A">From Inbox</text>
+<rect x="64" y="644" width="332" height="50" rx="8" fill="#EFF6FF" stroke="#2F5496" stroke-width="1.8"/>
+  <text x="230.0" y="665.0" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">Save Email Record &amp; JSON Indicators to PostgreSQL</text>
+  <text x="230.0" y="680.5" text-anchor="middle" font-size="11.5"  fill="#0F172A">Render Per-Rule Forensic Breakdown in UI</text>
+<path d="M 93,597 L 93,620 L 160,620 L 160,644" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<path d="M 230,597 L 230,644" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<path d="M 367,597 L 367,620 L 300,620 L 300,644" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<rect x="456" y="54" width="442" height="686" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+<text x="677" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#DC2626">B. INCIDENT RESPONSE &amp; ATOMIC CONTAINMENT</text>
+<rect x="527" y="102" width="300" height="44" rx="8" fill="#FFF7ED" stroke="#D97706" stroke-width="1.8"/>
+  <text x="677.0" y="120.0" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">Employee Clicks 'Report Phishing'</text>
+  <text x="677.0" y="135.5" text-anchor="middle" font-size="11.5"  fill="#0F172A">POST /reports/submit/&lt;email_id&gt;</text>
+<path d="M 677,146 L 677,174" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<polygon points="677,174 799,212 677,250 555,212" fill="#FEF3C7" stroke="#D97706" stroke-width="1.8"/>
+  <text x="677" y="208.0" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F172A">Matches Authorized</text>
+  <text x="677" y="222.0" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F172A">Simulation Token?</text>
+<path d="M 555,212 L 508,212 L 508,286" fill="none" stroke="#059669" stroke-width="1.8"  marker-end="url(#arrow-green)"/>
+<rect x="515.5" y="195.0" width="28.9" height="15" rx="3" fill="#FFFFFF"/><text x="530" y="206" text-anchor="middle" font-size="10" font-weight="bold" fill="#059669">YES</text>
+<rect x="466" y="286" width="142" height="56" rx="8" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="537.0" y="302.8" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Credit SimResult</text>
+  <text x="537.0" y="317.2" text-anchor="middle" font-size="10.5"  fill="#0F172A">is_reported = True</text>
+  <text x="537.0" y="331.8" text-anchor="middle" font-size="10.5"  fill="#0F172A">Congratulate User</text>
+<path d="M 677,250 L 748,250 L 748,276" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<rect x="706.0" y="235.0" width="28.0" height="15" rx="3" fill="#FFFFFF"/><text x="720" y="246" text-anchor="middle" font-size="10" font-weight="bold" fill="#DC2626">NO</text>
+<rect x="636" y="276" width="232" height="46" rx="8" fill="#EFF6FF" stroke="#2F5496" stroke-width="1.8"/>
+  <text x="752.0" y="295.0" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F172A">Create Report (pending)</text>
+  <text x="752.0" y="310.0" text-anchor="middle" font-size="11"  fill="#0F172A">IT Admin Reviews in SOC Queue</text>
+<path d="M 752,322 L 752,350" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<polygon points="752,350 858,388 752,426 646,388" fill="#FEF3C7" stroke="#D97706" stroke-width="1.8"/>
+  <text x="752" y="384.0" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F172A">Admin Verdict</text>
+  <text x="752" y="398.0" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F172A">== 'phishing'?</text>
+<path d="M 646,388 L 534,388 L 534,422" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<rect x="548.4" y="372.0" width="79.3" height="15" rx="3" fill="#FFFFFF"/><text x="588" y="383" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">SAFE / SPAM</text>
+<rect x="466" y="422" width="136" height="52" rx="8" fill="#F1F5F9" stroke="#94A3B8" stroke-width="1.8"/>
+  <text x="534.0" y="436.8" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">Close Report</text>
+  <text x="534.0" y="451.2" text-anchor="middle" font-size="10.5"  fill="#0F172A">No Incident</text>
+  <text x="534.0" y="465.8" text-anchor="middle" font-size="10.5"  fill="#0F172A">Escalation</text>
+<path d="M 752,426 L 752,490" fill="none" stroke="#DC2626" stroke-width="1.8"  marker-end="url(#arrow-red)"/>
+<rect x="761.5" y="445.0" width="28.9" height="15" rx="3" fill="#FFFFFF"/><text x="776" y="456" text-anchor="middle" font-size="10" font-weight="bold" fill="#DC2626">YES</text>
+<rect x="526" y="490" width="354" height="146" rx="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="703.0" y="530.0" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0F172A">ATOMIC 5-STEP SOC CONTAINMENT</text>
+  <text x="703.0" y="544.5" text-anchor="middle" font-size="10.5"  fill="#0F172A">1. Open Sequential Incident INC-YYYY-XXXX</text>
+  <text x="703.0" y="559.0" text-anchor="middle" font-size="10.5"  fill="#0F172A">2. Flag Victim User 'compromised' + Forced Reset</text>
+  <text x="703.0" y="573.5" text-anchor="middle" font-size="10.5"  fill="#0F172A">3. Blacklist Sender in blocked_sender Table</text>
+  <text x="703.0" y="588.0" text-anchor="middle" font-size="10.5"  fill="#0F172A">4. Quarantine Email &amp; Record actions_log</text>
+  <text x="703.0" y="602.5" text-anchor="middle" font-size="10.5"  fill="#0F172A">5. Broadcast Danger Alert to All Corporate Staff</text>
+<path d="M 703,636 L 703,668" fill="none" stroke="#334155" stroke-width="1.8"  marker-end="url(#arrow)"/>
+<ellipse cx="703" cy="690" rx="74" ry="21" fill="#DBEAFE" stroke="#2F5496" stroke-width="1.8"/>
+  <text x="703" y="692.8" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0F172A">CONTAINED</text>
+</svg>
